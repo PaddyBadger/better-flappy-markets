@@ -19,7 +19,9 @@ public class GameRenderer {
 
     public static final int VIEWPORT_WIDTH = 136;
     private final float viewportRatio;
+
     private GameWorld myWorld;
+    private CameraMan cameraMan;
 
     private List<GameLayer> layers = new ArrayList<GameLayer>();
 
@@ -45,7 +47,8 @@ public class GameRenderer {
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
 
-        myWorld = world;
+        this.myWorld = world;
+        this.cameraMan = new CameraMan(world);
 
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
@@ -115,6 +118,8 @@ public class GameRenderer {
     public void render(float runTime) {
 
         resizeToBird(birdLayer, bird, runTime);
+
+        this.cameraMan.step(runTime);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
