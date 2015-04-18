@@ -1,14 +1,13 @@
 package com.flappy.markets.GameWorld;
 
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.ScrollHandler;
-import com.flappy.markets.STHelpers.AssetLoader;
 
 public class GameWorld {
 	private ScrollHandler scroller;
 	private Bird bird;
+    private Bird marketBird;
 	
 	private Rectangle ground;
 	
@@ -26,6 +25,7 @@ public class GameWorld {
 		currentState = GameState.READY;
 		this.midPointY = midPointY;
 		bird = new Bird(33, midPointY - 5, 17, 12);
+        marketBird = new Bird(33, midPointY + 5, 17, 12);
 		scroller = new ScrollHandler(this, midPointY + 66);
 		ground = new Rectangle(0, midPointY + 66, 136, 11);		
 	}
@@ -56,29 +56,33 @@ public class GameWorld {
 		bird.update(delta);
 		scroller.update(delta);
 		
-		if (scroller.collides(bird) && bird.isAlive()) {
-			scroller.stop();
-			bird.die();
-			AssetLoader.dead.play();
-		}
-		
-		if (Intersector.overlaps(bird.getBoundingCircle(), ground)) {
-			scroller.stop();
-			bird.die();
-			bird.decelerate();
-			currentState = GameState.GAMEOVER;
-			
-			if (score > AssetLoader.getHighScore()) {
-				AssetLoader.setHighScore(score);
-				currentState = GameState.HIGHSCORE;
-			}
-		}
+//		if (scroller.collides(bird) && bird.isAlive()) {
+//			scroller.stop();
+//			bird.die();
+//			AssetLoader.dead.play();
+//		}
+//
+//		if (Intersector.overlaps(bird.getBoundingCircle(), ground)) {
+//			scroller.stop();
+//			bird.die();
+//			bird.decelerate();
+//			currentState = GameState.GAMEOVER;
+//
+//			if (score > AssetLoader.getHighScore()) {
+//				AssetLoader.setHighScore(score);
+//				currentState = GameState.HIGHSCORE;
+//			}
+//		}
 		
 	}
 	
 	public Bird getBird() {
 		return bird;
 	}
+
+    public Bird getMarketBird() {
+        return marketBird;
+    }
 	
 	public ScrollHandler getScroller() {
 		return scroller;
