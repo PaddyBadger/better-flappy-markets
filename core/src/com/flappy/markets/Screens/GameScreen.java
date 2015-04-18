@@ -7,6 +7,7 @@ import com.flappy.markets.GameWorld.GameWorld;
 import com.flappy.markets.STHelpers.InputHandler;
 
 public class GameScreen implements Screen {
+
 	private GameWorld world;
 	private GameRenderer renderer;
 	private float runTime;
@@ -68,5 +69,4 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -16,6 +16,8 @@ import com.flappy.markets.STHelpers.AssetLoader;
 
 public class GameRenderer {
 
+    public static final int VIEWPORT_WIDTH = 136;
+    private final float viewportRatio;
     private GameWorld myWorld;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
@@ -43,10 +45,13 @@ public class GameRenderer {
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
 
+        this.viewportRatio = VIEWPORT_WIDTH / gameHeight;
+
         cam = new OrthographicCamera();
-        cam.setToOrtho(true, 136, gameHeight);
+        cam.setToOrtho(true, VIEWPORT_WIDTH, gameHeight);
 
         batcher = new SpriteBatch();
+
         // Attach batcher to camera
         batcher.setProjectionMatrix(cam.combined);
 
@@ -100,7 +105,10 @@ public class GameRenderer {
 
     public void render(float runTime) {
 
+        System.out.println(runTime);
+
         // black background to prevent flickering
+        resizeToBird(bird, runTime);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -188,4 +196,18 @@ public class GameRenderer {
         }
         batcher.end();
     }
+    private void resizeToBird(Bird bird, float timestamp) {
+
+        float birdY = bird.getY();
+
+        float height = birdY + this.gameHeight;
+        float width = Math.max(VIEWPORT_WIDTH, birdY + (height * this.viewportRatio));
+
+        System.out.println("width x height : " + width + " x " + height + "(" + width/height + ")");
+
+        cam.setToOrtho(true, width, height);
+        batcher.setProjectionMatrix(cam.combined);
+        shapeRenderer.setProjectionMatrix(cam.combined);
+    }
+
 }
