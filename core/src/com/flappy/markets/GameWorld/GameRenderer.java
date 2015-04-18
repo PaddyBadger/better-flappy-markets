@@ -40,40 +40,6 @@ public class GameRenderer {
     private TextureRegion birdMid, birdDown, birdUp;
     private TextureRegion skullUp, skullDown, bar;
 
-    private class GameLayer {
-
-        float width;
-        float height;
-
-        OrthographicCamera camera;
-        SpriteBatch batch;
-
-        private GameLayer() {
-            this.camera = new OrthographicCamera();
-            this.batch = new SpriteBatch();
-            this.batch.disableBlending();
-        }
-
-        private void orient(float width, float height){
-            this.width = width;
-            this.height = height;
-
-            camera.setToOrtho(true, width, height);
-            batch.setProjectionMatrix(camera.combined);
-        }
-
-        public void start(){
-            this.batch.begin();
-        }
-
-        public void stop(){
-            this.batch.end();
-        }
-
-        public String toString(){
-            return "width x height : " + width + " x " + height + "(" + width/height + ")";
-        }
-    }
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
 
@@ -126,15 +92,15 @@ public class GameRenderer {
     private void drawGrass(GameLayer layer) {
 
         // Draw the grass
-        layer.batch.draw(grass, frontGrass.getX(), frontGrass.getY(),
+        layer.getBatch().draw(grass, frontGrass.getX(), frontGrass.getY(),
                 frontGrass.getWidth(), frontGrass.getHeight());
-        layer.batch.draw(grass, backGrass.getX(), backGrass.getY(),
+        layer.getBatch().draw(grass, backGrass.getX(), backGrass.getY(),
                 backGrass.getWidth(), backGrass.getHeight());
     }
 
     private void drawBuildings(GameLayer layer, Building building) {
 
-        layer.batch.draw(bar, building.getX(), building.getY() + building.getHeight(),
+        layer.getBatch().draw(bar, building.getX(), building.getY() + building.getHeight(),
                 building.getWidth(), midPointY + 66 - (building.getHeight()));
     }
 
@@ -145,12 +111,7 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        for(GameLayer l : layers){
-//            l.start();
-//        }
-
         birdLayer.start();
-        birdLayer.batch.disableBlending();
 
         drawGrass(birdLayer);
         drawBuildings(birdLayer, building1);
@@ -159,22 +120,22 @@ public class GameRenderer {
         drawBuildings(birdLayer, building4);
         drawBuildings(birdLayer, building5);
 
-        birdLayer.batch.enableBlending();
+        birdLayer.blend();
 
         System.out.println("birdLayer:" + birdLayer.toString());
         System.out.println("hudLayer:" + hudLayer.toString());
 
         if (bird.shouldntFlap()) {
-            birdLayer.batch.draw(birdMid, bird.getX(), bird.getY(),
+            birdLayer.getBatch().draw(birdMid, bird.getX(), bird.getY(),
                     bird.getWidth() / 2.0f, bird.getHeight() / 2.0f,
                     bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
         } else {
-            birdLayer.batch.draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(),
+            birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(),
                     bird.getWidth() / 2.0f, bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(),
                     1, 1, bird.getRotation());
         }
 
-        birdLayer.batch.draw(birdMid, marketBird.getX(), marketBird.getY(),
+        birdLayer.getBatch().draw(birdMid, marketBird.getX(), marketBird.getY(),
                 marketBird.getWidth() / 2.0f, marketBird.getHeight() / 2.0f,
                 marketBird.getWidth(), marketBird.getHeight(), 1, 1, marketBird.getRotation());
 
@@ -183,46 +144,45 @@ public class GameRenderer {
         hudLayer.start();
         drawHud();
         hudLayer.stop();
-
-//        for(GameLayer l : layers){
-//            l.stop();
-//        }
     }
 
     private void drawHud() {
+        
+        SpriteBatch hudBatch = hudLayer.getBatch();
+        
         if (myWorld.isReady()) {
-            drawStart(hudLayer.batch);
+            drawStart(hudBatch);
         } else {
 
             if (myWorld.isGameOver() || myWorld.isHighScore()) {
 
                 if (myWorld.isGameOver()) {
-                    AssetLoader.shadow.draw(hudLayer.batch, "Game Over", 25, 56);
-                    AssetLoader.font.draw(hudLayer.batch, "Game Over", 24, 55);
+                    AssetLoader.shadow.draw(hudBatch, "Game Over", 25, 56);
+                    AssetLoader.font.draw(hudBatch, "Game Over", 24, 55);
 
-                    AssetLoader.shadow.draw(hudLayer.batch, "High Score:", 23, 106);
-                    AssetLoader.font.draw(hudLayer.batch, "High Score", 22, 105);
+                    AssetLoader.shadow.draw(hudBatch, "High Score:", 23, 106);
+                    AssetLoader.font.draw(hudBatch, "High Score", 22, 105);
 
                     String highScore = AssetLoader.getHighScore() + "";
 
-                    AssetLoader.shadow.draw(hudLayer.batch, highScore, (136 / 2)
+                    AssetLoader.shadow.draw(hudBatch, highScore, (136 / 2)
                             - (3 * highScore.length()), 128);
 
-                    AssetLoader.font.draw(hudLayer.batch, highScore, (136 / 2)
+                    AssetLoader.font.draw(hudBatch, highScore, (136 / 2)
                             - (3 * highScore.length() - 1), 127);
 
                 } else {
-                    AssetLoader.shadow.draw(hudLayer.batch, "High Score!", 19, 56);
-                    AssetLoader.font.draw(hudLayer.batch, "High Score!", 18, 55);
+                    AssetLoader.shadow.draw(hudBatch, "High Score!", 19, 56);
+                    AssetLoader.font.draw(hudBatch, "High Score!", 18, 55);
                 }
 
-                AssetLoader.shadow.draw(hudLayer.batch, "Try Again?", 23, 76);
-                AssetLoader.font.draw(hudLayer.batch, "Try Again?", 24, 75);
+                AssetLoader.shadow.draw(hudBatch, "Try Again?", 23, 76);
+                AssetLoader.font.draw(hudBatch, "Try Again?", 24, 75);
 
-                drawScore(hudLayer.batch, myWorld.getScore());
+                drawScore(hudBatch, myWorld.getScore());
             }
 
-            drawScore(hudLayer.batch, myWorld.getScore());
+            drawScore(hudBatch, myWorld.getScore());
         }
     }
 
