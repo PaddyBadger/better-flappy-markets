@@ -8,11 +8,7 @@ import java.util.Random;
 public class Building extends Scrollable {
 	private Random r;
 	private Rectangle barUp;
-	
-	private static final int VERTICAL_GAP = 45;
-	private static final int SKULL_WIDTH = 24;
-	public static final int SKULL_HEIGHT = 11;
-	
+
 	private float groundY;
 	
 	private boolean isScored = false;

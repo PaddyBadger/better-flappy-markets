@@ -2,13 +2,12 @@ package com.flappy.markets.GameWorld;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.flappy.markets.GameObjects.Bird;
-import com.flappy.markets.GameObjects.Grass;
 import com.flappy.markets.GameObjects.Building;
+import com.flappy.markets.GameObjects.Grass;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
 
@@ -147,9 +146,9 @@ public class GameRenderer {
     }
 
     private void drawHud() {
-        
+
         SpriteBatch hudBatch = hudLayer.getBatch();
-        
+
         if (myWorld.isReady()) {
             drawStart(hudBatch);
         } else {
@@ -207,5 +206,4 @@ public class GameRenderer {
 
         layer.orient(width, height);
     }
-
 }
