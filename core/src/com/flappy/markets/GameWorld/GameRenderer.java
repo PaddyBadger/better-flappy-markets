@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.Building;
+import com.flappy.markets.GameObjects.Cloud;
 import com.flappy.markets.GameObjects.Grass;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
@@ -24,6 +25,7 @@ public class GameRenderer {
 
     private GameLayer hudLayer;
     private GameLayer birdLayer;
+    private GameLayer cloudLayer;
 
     private int midPointY;
     private int gameHeight;
@@ -33,6 +35,7 @@ public class GameRenderer {
     private ScrollHandler scroller;
     private Grass frontGrass, backGrass;
     private Building building1, building2, building3, building4, building5;
+    private Cloud cloud1, cloud2, cloud3;
 
     private TextureRegion grass;
     private Animation birdAnimation;
@@ -51,12 +54,15 @@ public class GameRenderer {
 
         this.hudLayer = new GameLayer();
         this.birdLayer = new GameLayer();
+        this.cloudLayer = new GameLayer();
 
         this.birdLayer.orient(VIEWPORT_WIDTH, gameHeight);
         this.hudLayer.orient(VIEWPORT_WIDTH, gameHeight);
+        this.cloudLayer.orient(VIEWPORT_WIDTH, gameHeight);
 
         layers.add(hudLayer);
         layers.add(birdLayer);
+        layers.add(cloudLayer);
 
         initGameObjects();
         initAssets();
@@ -74,6 +80,9 @@ public class GameRenderer {
         building3 = scroller.getBuilding3();
         building4 = scroller.getBuilding4();
         building5 = scroller.getBuilding5();
+        cloud1 = scroller.getCloud1();
+        cloud2 = scroller.getCloud2();
+        cloud3 = scroller.getCloud3();
     }
 
     private void initAssets() {

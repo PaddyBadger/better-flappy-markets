@@ -6,14 +6,12 @@ import com.flappy.markets.GameWorld.GameWorld;
 
 public class InputHandler implements InputProcessor {
 	private Bird myBird;
-    private Bird marketBird;
 	private GameWorld myWorld;
 	
 	
 	public InputHandler(GameWorld myWorld) {
 		this.myWorld = myWorld;
 		myBird = myWorld.getBird();
-        marketBird = myWorld.getMarketBird();
 	}
 
 	@Override
