@@ -11,6 +11,7 @@ import java.util.Random;
 public class GameWorld {
     private final ArrayList<BirdData> marketBirdData;
 
+    private final int k;
 
     private ScrollHandler scroller;
 	private Bird bird;
@@ -44,7 +45,7 @@ public class GameWorld {
 		scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
-        int k = 0;
+        k = 0;
 
         marketBirdData = new ArrayList<BirdData>();
         for (int j = 0; j < i; j ++) {
@@ -79,7 +80,9 @@ public class GameWorld {
 		}
 
 		bird.update(delta, 50, midPointY);
+
         marketBird.update(delta, (int) marketBirdData.get(k).x, (int) marketBirdData.get(k).y);
+
 		scroller.update(delta);
 	}
 
