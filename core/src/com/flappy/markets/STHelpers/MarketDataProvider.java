@@ -14,10 +14,6 @@ public class MarketDataProvider {
     private static final String DATA_FILE_PATH = "historical_five_day_prices";
     float[] prices;
 
-    public MarketDataProvider() {
-        this(241);
-    }
-
     public MarketDataProvider(int dataCount) {
         this.prices = new float[dataCount];
 
