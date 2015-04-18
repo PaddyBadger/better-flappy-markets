@@ -67,8 +67,8 @@ public class GameRenderer {
         pipe1 = scroller.getPipe1();
         pipe2 = scroller.getPipe2();
         pipe3 = scroller.getPipe3();
-        pipe4 = scroller.getPi
-
+        pipe4 = scroller.getPipe4();
+        pipe5 = scroller.getPipe5();
     }
 
     private void initAssets() {

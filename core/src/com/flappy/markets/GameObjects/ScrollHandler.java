@@ -1,7 +1,6 @@
 package com.flappy.markets.GameObjects;
 
 import com.flappy.markets.GameWorld.GameWorld;
-import com.flappy.markets.STHelpers.AssetLoader;
 
 public class ScrollHandler {
 	
@@ -38,7 +37,11 @@ public class ScrollHandler {
 			pipe2.reset(pipe1.getTailX() + PIPE_GAP);
 		} else if (pipe3.isScrolledLeft()) {
 			pipe3.reset(pipe2.getTailX() + PIPE_GAP);
-		} else if
+		} else if (pipe4.isScrolledLeft()) {
+            pipe4.reset(pipe4.getTailX() + PIPE_GAP);
+        } else if (pipe5.isScrolledLeft()) {
+            pipe5.reset(pipe5.getTailX() + PIPE_GAP);
+        }
 	
 		if (frontGrass.isScrolledLeft()) {
 			frontGrass.reset(backGrass.getTailX());
@@ -53,25 +56,37 @@ public class ScrollHandler {
 		backGrass.stop();
 		pipe1.stop();
 		pipe2.stop();
-		pipe3.stop();}
-	
-	public boolean collides(Bird bird) {
-		if (!pipe1.isScored() && pipe1.getX() + (pipe1.getWidth() / 2) <bird.getX() + bird.getWidth()) {
-			addScore(1);
-			pipe1.setScored(true);
-			AssetLoader.coin.play();
-		} else if (!pipe2.isScored() && pipe2.getX() + (pipe2.getWidth() / 2) < bird.getX() + bird.getWidth()) {
-			addScore(1);
-			pipe2.setScored(true);
-			AssetLoader.coin.play();
-		} else if (!pipe3.isScored() && pipe3.getX() + (pipe3.getWidth() /2) < bird.getX() + bird.getWidth()) {
-			addScore(1);
-			pipe3.setScored(true);
-			AssetLoader.coin.play();
-		} 
-		
-		return (pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird));
-	}
+		pipe3.stop();
+        pipe4.stop();
+        pipe5.stop();
+    }
+
+//TODO: figure out scoring / market diff @ these points
+//	public boolean collides(Bird bird) {
+//		if (!pipe1.isScored() && pipe1.getX() + (pipe1.getWidth() / 2) <bird.getX() + bird.getWidth()) {
+//			addScore(1);
+//			pipe1.setScored(true);
+//			AssetLoader.coin.play();
+//		} else if (!pipe2.isScored() && pipe2.getX() + (pipe2.getWidth() / 2) < bird.getX() + bird.getWidth()) {
+//			addScore(1);
+//			pipe2.setScored(true);
+//			AssetLoader.coin.play();
+//		} else if (!pipe3.isScored() && pipe3.getX() + (pipe3.getWidth() /2) < bird.getX() + bird.getWidth()) {
+//			addScore(1);
+//			pipe3.setScored(true);
+//			AssetLoader.coin.play();
+//		} else if (!pipe4.isScored() && pipe4.getX() + (pipe4.getWidth() /2) < bird.getX() + bird.getWidth()) {
+//            addScore(1);
+//            pipe4.setScored(true);
+//            AssetLoader.coin.play();
+//        } else if (!pipe5.isScored() && pipe5.getX() + (pipe5.getWidth() /2) < bird.getX() + bird.getWidth()) {
+//            addScore(1);
+//            pipe5.setScored(true);
+//            AssetLoader.coin.play();
+//        }
+//
+//		return (pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird));
+//	}
 	
 	public void onRestart() {
 		frontGrass.onRestart(0, SCROLL_SPEED);
@@ -79,6 +94,8 @@ public class ScrollHandler {
 		pipe1.onRestart(210, SCROLL_SPEED);
 		pipe2.onRestart(pipe1.getTailX() + PIPE_GAP, SCROLL_SPEED);
 		pipe3.onRestart(pipe2.getTailX() + PIPE_GAP, SCROLL_SPEED);
+        pipe4.onRestart(pipe3.getTailX() + PIPE_GAP, SCROLL_SPEED);
+        pipe5.onRestart(pipe4.getTailX() + PIPE_GAP, SCROLL_SPEED);
 		
 	}
 	
@@ -97,12 +114,13 @@ public class ScrollHandler {
 	public Pipe getPipe1() {
 		return pipe1;
 	}
-	
 	public Pipe getPipe2() {
 		return pipe2;
 	}
 	public Pipe getPipe3() {
 		return pipe3;
 	}
+    public Pipe getPipe4() { return pipe4; }
+    public Pipe getPipe5() { return pipe5; }
 	
 }
