@@ -6,11 +6,11 @@ import com.flappy.markets.STHelpers.AssetLoader;
 public class ScrollHandler {
 	
 	private Grass frontGrass, backGrass;
-	private Pipe pipe1, pipe2, pipe3;
+	private Pipe pipe1, pipe2, pipe3, pipe4, pipe5;
 	private GameWorld gameWorld;
 	
 	public static final int SCROLL_SPEED = -59;
-	public static final int PIPE_GAP = 49;
+	public static final int PIPE_GAP = 15;
 	
 	public ScrollHandler(GameWorld gameWorld, float yPos) {
 		this.gameWorld = gameWorld;
@@ -20,7 +20,10 @@ public class ScrollHandler {
 		pipe1 = new Pipe(210,0,22,60,SCROLL_SPEED, yPos);
 		pipe2 = new Pipe(pipe1.getTailX() + PIPE_GAP, 0, 22, 70, SCROLL_SPEED, yPos);
 		pipe3 = new Pipe(pipe2.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
-	}
+        pipe4 = new Pipe(pipe3.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
+        pipe5 = new Pipe(pipe4.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
+
+    }
 	
 	public void update(float delta) {
 		frontGrass.update(delta);
@@ -35,7 +38,7 @@ public class ScrollHandler {
 			pipe2.reset(pipe1.getTailX() + PIPE_GAP);
 		} else if (pipe3.isScrolledLeft()) {
 			pipe3.reset(pipe2.getTailX() + PIPE_GAP);
-		}
+		} else if
 	
 		if (frontGrass.isScrolledLeft()) {
 			frontGrass.reset(backGrass.getTailX());
