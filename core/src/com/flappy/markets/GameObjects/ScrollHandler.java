@@ -68,7 +68,7 @@ public class ScrollHandler {
 			addScore(1);
 			pipe3.setScored(true);
 			AssetLoader.coin.play();
-		}
+		} 
 		
 		return (pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird));
 	}
