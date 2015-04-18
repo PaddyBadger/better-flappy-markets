@@ -218,6 +218,8 @@ public class GameRenderer {
         float height = birdY + this.gameHeight;
         float width = Math.max(VIEWPORT_WIDTH, birdY + (height * this.viewportRatio));
 
+        bird.update(0, Math.round(width / 2), Math.round(bird.getY()));
+
         layer.orient(width, height);
     }
 }

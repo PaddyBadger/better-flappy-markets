@@ -25,7 +25,7 @@ public class GameWorld {
     }
 
     private Rectangle ground;
-	
+
 	private int score = 0;
 
 	private GameState currentState;
@@ -54,7 +54,7 @@ public class GameWorld {
         this.birds.add(marketBird);
         this.birds.add(bird);
 	}
-	
+
 	public void update(float delta) {
 		switch (currentState) {
 		case READY:
@@ -79,7 +79,7 @@ public class GameWorld {
 		}
 
 		bird.update(delta, 50, midPointY);
-     //   marketBird.update(delta);
+        marketBird.update(delta, (int) marketBirdData.get(k).x, (int) marketBirdData.get(k).y);
 		scroller.update(delta);
 	}
 

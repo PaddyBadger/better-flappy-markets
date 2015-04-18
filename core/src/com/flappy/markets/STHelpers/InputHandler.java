@@ -34,7 +34,8 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (myWorld.isReady()) {
+
+        if (myWorld.isReady()) {
 			myWorld.start();
 		}
 		
