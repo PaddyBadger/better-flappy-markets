@@ -5,7 +5,7 @@ import com.flappy.markets.GameWorld.GameWorld;
 public class ScrollHandler {
 	
 	private Grass frontGrass, backGrass;
-	private Pipe pipe1, pipe2, pipe3, pipe4, pipe5;
+	private Building building1, building2, building3, building4, building5;
 	private GameWorld gameWorld;
 	
 	public static final int SCROLL_SPEED = -59;
@@ -16,31 +16,33 @@ public class ScrollHandler {
 		frontGrass = new Grass(0, yPos + 10, 170, 5, SCROLL_SPEED);
 		backGrass = new Grass(frontGrass.getTailX(), yPos + 10, 170, 5, SCROLL_SPEED);
 		
-		pipe1 = new Pipe(210,0,22,60,SCROLL_SPEED, yPos);
-		pipe2 = new Pipe(pipe1.getTailX() + PIPE_GAP, 0, 22, 70, SCROLL_SPEED, yPos);
-		pipe3 = new Pipe(pipe2.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
-        pipe4 = new Pipe(pipe3.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
-        pipe5 = new Pipe(pipe4.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
+		building1 = new Building(210,0,22,60,SCROLL_SPEED, yPos);
+		building2 = new Building(building1.getTailX() + PIPE_GAP, 0, 22, 70, SCROLL_SPEED, yPos);
+		building3 = new Building(building2.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
+        building4 = new Building(building3.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
+        building5 = new Building(building4.getTailX() + PIPE_GAP, 0, 22, 60, SCROLL_SPEED, yPos);
 
     }
 	
 	public void update(float delta) {
 		frontGrass.update(delta);
 		backGrass.update(delta);
-		pipe1.update(delta);
-		pipe2.update(delta);
-		pipe3.update(delta);
+		building1.update(delta);
+		building2.update(delta);
+		building3.update(delta);
+        building4.update(delta);
+        building5.update(delta);
 		
-		if (pipe1.isScrolledLeft()) {
-			pipe1.reset(pipe3.getTailX() + PIPE_GAP);
-		} else if (pipe2.isScrolledLeft()) {
-			pipe2.reset(pipe1.getTailX() + PIPE_GAP);
-		} else if (pipe3.isScrolledLeft()) {
-			pipe3.reset(pipe2.getTailX() + PIPE_GAP);
-		} else if (pipe4.isScrolledLeft()) {
-            pipe4.reset(pipe4.getTailX() + PIPE_GAP);
-        } else if (pipe5.isScrolledLeft()) {
-            pipe5.reset(pipe5.getTailX() + PIPE_GAP);
+		if (building1.isScrolledLeft()) {
+			building1.reset(building5.getTailX() + PIPE_GAP);
+		} else if (building2.isScrolledLeft()) {
+			building2.reset(building1.getTailX() + PIPE_GAP);
+		} else if (building3.isScrolledLeft()) {
+			building3.reset(building2.getTailX() + PIPE_GAP);
+		} else if (building4.isScrolledLeft()) {
+            building4.reset(building3.getTailX() + PIPE_GAP);
+        } else if (building5.isScrolledLeft()) {
+            building5.reset(building4.getTailX() + PIPE_GAP);
         }
 	
 		if (frontGrass.isScrolledLeft()) {
@@ -54,11 +56,11 @@ public class ScrollHandler {
 	public void stop() {
 		frontGrass.stop();
 		backGrass.stop();
-		pipe1.stop();
-		pipe2.stop();
-		pipe3.stop();
-        pipe4.stop();
-        pipe5.stop();
+		building1.stop();
+		building2.stop();
+		building3.stop();
+        building4.stop();
+        building5.stop();
     }
 
 //TODO: figure out scoring / market diff @ these points
@@ -91,11 +93,11 @@ public class ScrollHandler {
 	public void onRestart() {
 		frontGrass.onRestart(0, SCROLL_SPEED);
 		backGrass.onRestart(frontGrass.getTailX(), SCROLL_SPEED);
-		pipe1.onRestart(210, SCROLL_SPEED);
-		pipe2.onRestart(pipe1.getTailX() + PIPE_GAP, SCROLL_SPEED);
-		pipe3.onRestart(pipe2.getTailX() + PIPE_GAP, SCROLL_SPEED);
-        pipe4.onRestart(pipe3.getTailX() + PIPE_GAP, SCROLL_SPEED);
-        pipe5.onRestart(pipe4.getTailX() + PIPE_GAP, SCROLL_SPEED);
+		building1.onRestart(210, SCROLL_SPEED);
+		building2.onRestart(building1.getTailX() + PIPE_GAP, SCROLL_SPEED);
+		building3.onRestart(building2.getTailX() + PIPE_GAP, SCROLL_SPEED);
+        building4.onRestart(building3.getTailX() + PIPE_GAP, SCROLL_SPEED);
+        building5.onRestart(building4.getTailX() + PIPE_GAP, SCROLL_SPEED);
 		
 	}
 	
@@ -111,16 +113,16 @@ public class ScrollHandler {
 		return backGrass;
 	}
 	
-	public Pipe getPipe1() {
-		return pipe1;
+	public Building getBuilding1() {
+		return building1;
 	}
-	public Pipe getPipe2() {
-		return pipe2;
+	public Building getBuilding2() {
+		return building2;
 	}
-	public Pipe getPipe3() {
-		return pipe3;
+	public Building getBuilding3() {
+		return building3;
 	}
-    public Pipe getPipe4() { return pipe4; }
-    public Pipe getPipe5() { return pipe5; }
+    public Building getBuilding4() { return building4; }
+    public Building getBuilding5() { return building5; }
 	
 }
