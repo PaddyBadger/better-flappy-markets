@@ -40,7 +40,7 @@ public class GameWorld {
     private double signal = 0.0;
     private double myMoney = 0.0;
 
-	private GameState currentState;
+	public GameState currentState;
 	public int midPointY;
 
     PortfolioTimeCoordinator myPortfolioTimeCoordinator;
@@ -115,6 +115,7 @@ public class GameWorld {
             System.out.println("GAME OVER!!!");
             currentState = GameState.GAMEOVER;
         }
+
         this.score = myPortfolioTimeCoordinator.getCurrentValue() - marketPortfolioTimeCoordinator.getCurrentValue();
         this.myMoney = myPortfolioTimeCoordinator.getCurrentValue();
         this.signal = marketPriceTimeCoordinator.getCurrentSignal();

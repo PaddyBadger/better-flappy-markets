@@ -88,6 +88,9 @@ public class Bird {
         // if moving down fast or dead then rotate clockwise until vertical
         if (isFalling() || !isAlive) {
             rotation += 480 * delta;
+            if (rotation > 50) {
+                rotation = 50;
+            }
         }
 
 //        position.y = (float) valueTimeCoordinator.getCurrentValue() * -60 + 1000;

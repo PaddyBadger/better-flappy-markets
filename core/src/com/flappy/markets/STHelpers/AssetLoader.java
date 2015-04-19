@@ -15,6 +15,7 @@ public class AssetLoader {
     public static Texture background;
     public static Texture buildings;
     public static Texture marketbirdTexture;
+    public static Texture gameOverTexture;
 
 	public static Animation birdAnimation;
     public static Animation marketBirdAnimation;
@@ -25,6 +26,8 @@ public class AssetLoader {
 	public static TextureRegion bar;
 
     public static TextureRegion cloud;
+
+    public static TextureRegion gameOver;
 
     public static TextureRegion backgroundTexture;
 
@@ -60,6 +63,12 @@ public class AssetLoader {
 		
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
 		shadow.setScale(.25f, -.25f);
+
+        gameOverTexture = new Texture(Gdx.files.internal("data/gameover.png"));
+        gameOverTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        gameOver = new TextureRegion(gameOverTexture, 0, 0, 476, 300);
+        gameOver.flip(false, true);
 
         makeBackground();
         makeBuildings();

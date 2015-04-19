@@ -45,6 +45,9 @@ public class GameRenderer {
     private TextureRegion buildingBackdrop;
     private TextureRegion background;
     private TextureRegion buildingTexture1, buildingTexture2, buildingTexture3, buildingTexture4;
+
+    private TextureRegion gameOverRegion;
+
     private Animation birdAnimation;
     private Animation marketBirdAnimation;
     private TextureRegion bar;
@@ -120,7 +123,8 @@ public class GameRenderer {
         buildingTexture2= AssetLoader.building2;
         buildingTexture3 = AssetLoader.building3;
         buildingTexture4 = AssetLoader.building4;
-       // poopTexture = AssetLoader.bigPoop;
+
+        gameOverRegion = AssetLoader.gameOver;
     }
 
     private void drawBackground(GameLayer layer) {
@@ -241,39 +245,28 @@ public class GameRenderer {
             drawStart(hudBatch);
         } else {
 
-            if (myWorld.isGameOver() || myWorld.isHighScore()) {
+            if (myWorld.isGameOver()) {
 
-                if (myWorld.isGameOver()) {
-                    AssetLoader.shadow.draw(hudBatch, "Game Over", 25, 56);
-                    AssetLoader.font.draw(hudBatch, "Game Over", 24, 55);
+                final NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
+                String scoreString = defaultFormat.format(myWorld.getScore());
 
-                    AssetLoader.shadow.draw(hudBatch, "High Score:", 23, 106);
-                    AssetLoader.font.draw(hudBatch, "High Score", 22, 105);
+                hudBatch.draw(gameOverRegion,
+                        10,
+                        40,
+                        gameOverRegion.getRegionWidth() / 4,
+                        gameOverRegion.getRegionHeight() / 4);
 
-                    AssetLoader.ending.play();
+                AssetLoader.ending.play();
+                AssetLoader.shadow.draw(hudBatch, scoreString, 75 - (3 * scoreString.length()), 65);
+                AssetLoader.font.draw(hudBatch,   scoreString,   75 - (3 * scoreString.length() - 1), 67);
 
-                    String highScore = AssetLoader.getHighScore() + "";
 
-                    AssetLoader.shadow.draw(hudBatch, highScore, (136 / 2)
-                            - (3 * highScore.length()), 128);
-
-                    AssetLoader.font.draw(hudBatch, highScore, (136 / 2)
-                            - (3 * highScore.length() - 1), 127);
-
-                } else {
-                    AssetLoader.shadow.draw(hudBatch, "High Score!", 19, 56);
-                    AssetLoader.font.draw(hudBatch, "High Score!", 18, 55);
-                }
-
-                AssetLoader.shadow.draw(hudBatch, "Try Again?", 23, 76);
-                AssetLoader.font.draw(hudBatch, "Try Again?", 24, 75);
-
+// AssetLoader.font.draw(hudBatch, "", 24, 55);
+// AssetLoader.shadow.draw(hudBatch, "Game Over", 25, 56);
+            } else {
                 drawScore(hudBatch, myWorld.getScore());
                 drawSignal(hudBatch, myWorld.getSignal());
             }
-
-            drawScore(hudBatch, myWorld.getScore());
-            drawSignal(hudBatch, myWorld.getSignal());
         }
     }
 
