@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameLayer {
 
+    public static final int SPRITE_WIDTH = -15;
+
     private float width;
     private float height;
 
@@ -38,11 +40,8 @@ public class GameLayer {
         this.width = width;
         this.height = height;
 
-        float deltaY = camera.viewportHeight - height;
-        float deltaX = camera.viewportWidth - width;
-
-        camera.setToOrtho(true, width*2, height*2);
-        camera.position.set(camera.position.x, camera.position.y + bottom, 0);
+        camera.setToOrtho(true, width * 2, height * 2);
+        camera.position.set(camera.position.x - (width + SPRITE_WIDTH), camera.position.y + bottom, 0);
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);

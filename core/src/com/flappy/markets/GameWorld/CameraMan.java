@@ -51,7 +51,6 @@ public class CameraMan {
     }
 
     private float desiredTop(){
-
         return (myWorld.getBirdSpread() / 2) + myWorld.maxBirdAltitude();
     }
 

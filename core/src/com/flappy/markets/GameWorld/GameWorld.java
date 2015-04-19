@@ -13,8 +13,6 @@ public class GameWorld {
 
     private int k;
 
-    private long lastUpdate;
-
     private ScrollHandler scroller;
 
     private CameraMan cameraMan;
@@ -24,7 +22,7 @@ public class GameWorld {
 
     List<Bird> birds = new ArrayList<Bird>();
 
-    public final static int MIN_BIRD_SPREAD = 5; // m - We don't zoom any closer than as if the birds were N meters apart
+    public final static int MIN_BIRD_SPREAD = 15; // m - We don't zoom any closer than as if the birds were N meters apart
 
     public List<Bird> getBirds() {
         return birds;
