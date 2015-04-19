@@ -23,6 +23,11 @@ public class MarketPriceTimeCoordinator implements ValueTimeCoordinator {
         this.currentTime += delta;
     }
 
+    public boolean hasNext() {
+        long elapsedTime = currentTime - startTime;
+        return marketDataProvider.hasNext((int)(elapsedTime / timePerPrice));
+    }
+
     @Override
     public double getCurrentValue() {
         long elapsedTime = currentTime - startTime;

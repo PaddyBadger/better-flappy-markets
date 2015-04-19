@@ -111,6 +111,10 @@ public class GameWorld {
         marketBird.slowUpdate(delta);
 		scroller.update(delta);
 
+        if (!marketPriceTimeCoordinator.hasNext()) {
+            System.out.println("GAME OVER!!!");
+            currentState = GameState.GAMEOVER;
+        }
         this.score = myPortfolioTimeCoordinator.getCurrentValue() - marketPortfolioTimeCoordinator.getCurrentValue();
         this.myMoney = myPortfolioTimeCoordinator.getCurrentValue();
         this.signal = marketPriceTimeCoordinator.getCurrentSignal();

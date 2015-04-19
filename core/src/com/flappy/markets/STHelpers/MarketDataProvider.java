@@ -3540,6 +3540,10 @@ public class MarketDataProvider {
         else return allPrices[allPrices.length - 1];
     }
 
+    public boolean hasNext(int index) {
+        return adjustedIndex(index) < allPrices.length;
+    }
+
     private int adjustedIndex(int index) {
         return index + indexOffset;
     }
