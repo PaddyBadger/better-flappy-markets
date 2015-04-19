@@ -203,7 +203,7 @@ public class ScrollHandler {
     public Cloud getCloud2() { return cloud2; }
     public Cloud getCloud3() { return cloud3; }
 
-    /    public Poop getPoop1() {
+//   public Poop getPoop1() {
 //
 //        return poop1;
 //    }
@@ -252,4 +252,4 @@ public class ScrollHandler {
 //
 //        return poop10;
 //    }
-}
+    }
