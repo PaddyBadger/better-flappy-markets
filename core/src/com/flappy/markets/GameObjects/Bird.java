@@ -24,8 +24,6 @@ public class Bird {
     private int width;
     private int height;
 
-    private Circle boundingCircle;
-
     private boolean isAlive;
 
     private static final float FLAP_VELOCITY = -140;
@@ -39,7 +37,6 @@ public class Bird {
         velocity = new Vector2(0, 0);
 
         acceleration = new Vector2(0, 460);
-        boundingCircle = new Circle();
 
         isAlive = true;
 
@@ -71,10 +68,6 @@ public class Bird {
         // move
         position.add(velocity.cpy().scl(delta));
 
-        // collision -- TODO DELETE ME
-        boundingCircle.set(position.x + 9, position.y + 6, 6.5f);
-
-
         // multi-porpoise
         // if moving vertically up, rotate counter clockwise until arc'd
         if (velocity.y < 0) {
@@ -95,9 +88,6 @@ public class Bird {
         // if moving down fast or dead then rotate clockwise until vertical
         if (isFalling() || !isAlive) {
             rotation += 480 * delta;
-            if (rotation > 90) {
-                rotation = 90;
-            }
         }
 
 //        position.y = (float) valueTimeCoordinator.getCurrentValue() * -60 + 1000;
@@ -143,10 +133,6 @@ public class Bird {
 
     public float getRotation() {
         return rotation;
-    }
-
-    public Circle getBoundingCircle() {
-        return boundingCircle;
     }
 
     public boolean isAlive() {

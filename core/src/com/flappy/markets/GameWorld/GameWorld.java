@@ -13,6 +13,8 @@ import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
 public class GameWorld {
     private final ArrayList<BirdData> marketBirdData;
 
+    public boolean touching = false;
+
     private int k;
 
     private ScrollHandler scroller;
