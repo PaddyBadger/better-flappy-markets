@@ -47,7 +47,6 @@ public class PortfolioTimeCoordinator implements ValueTimeCoordinator{
     public void incrementTime(long delta, boolean shouldBuy) {
 
         this.currentTime += delta;
-        this.marketPriceTimeCoordinator.incrementTime(delta);
 
         if (shouldUpdateDueToDelta(delta)) {
             //buy or sell based on global button state
