@@ -24,6 +24,8 @@ public class GameWorld {
 
     public final static int MIN_BIRD_SPREAD = 50; // m - We don't zoom any closer than as if the birds were N meters apart
 
+    public boolean touching = false;
+
     public List<Bird> getBirds() {
         return birds;
     }

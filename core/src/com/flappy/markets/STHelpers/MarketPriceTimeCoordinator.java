@@ -7,23 +7,33 @@ public class MarketPriceTimeCoordinator {
 
     private MarketDataProvider marketDataProvider;
     private long startTime;
+
+    public long getCurrentTime() {
+        return currentTime;
+    }
+
+    private long currentTime;
     private long timePerPrice;
-    private int totalPrices;
 
     public MarketPriceTimeCoordinator(long startTime, long timePerPrice, int totalPrices) {
         marketDataProvider = new MarketDataProvider(totalPrices);
         this.startTime = startTime;
         this.timePerPrice = timePerPrice;
-        this.totalPrices = totalPrices;
+
+        this.currentTime = this.startTime;
     }
 
-    public UpcomingPrice getUpcomingPrice(long currentTime) {
+    public void incrementTime(long delta) {
+        this.currentTime += delta;
+    }
+
+    public UpcomingPrice getUpcomingPrice() {
         long elapsedTime = currentTime - startTime;
 
-        return new UpcomingPrice(elapsedTime % timePerPrice, marketDataProvider.get((int)(elapsedTime / timePerPrice) + 1));
+        return new UpcomingPrice(timePerPrice - (elapsedTime % timePerPrice), marketDataProvider.get((int)(elapsedTime / timePerPrice) + 1));
     }
 
-    public double getPrice(long currentTime) {
+    public double getCurrentPrice() {
         long elapsedTime = currentTime - startTime;
         return marketDataProvider.get((int)(elapsedTime / timePerPrice));
     }

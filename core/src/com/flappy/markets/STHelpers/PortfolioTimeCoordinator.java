@@ -1,50 +1,78 @@
 package com.flappy.markets.STHelpers;
 
 /**
- * Created by zanema on 4/18/15.
- */
+* Created by zanema on 4/18/15.
+*/
 public class PortfolioTimeCoordinator {
     private long startTime;
+    private long currentTime;
     private long timePerPrice;
+    private long timePerBuySellCheck;
     private MarketPriceTimeCoordinator marketPriceTimeCoordinator;
 
     private double sharesHeld;
     private double purchasePrice;
     private double cashHeld;
 
-    public PortfolioTimeCoordinator(double startingCash, long startTime, long timePerPrice, int totalPrices) {
+    public PortfolioTimeCoordinator(double startingCash, long startTime, long timePerPrice, long timePerBuySellCheck, int totalPrices) {
         this.startTime = startTime;
+        this.currentTime = this.startTime;
         this.timePerPrice = timePerPrice;
+        this.timePerBuySellCheck = timePerBuySellCheck;
+
         this.marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(startTime, timePerPrice, totalPrices);
 
         this.sharesHeld = 0;
         this.cashHeld = startingCash;
     }
 
-    public void buyShares(long currentTime) {
+    public void buyShares() {
         if (cashHeld > 0) {
-            purchasePrice = marketPriceTimeCoordinator.getPrice(currentTime);
+            purchasePrice = marketPriceTimeCoordinator.getCurrentPrice();
             sharesHeld = cashHeld / purchasePrice;
             cashHeld = 0;
         }
     }
 
-    public void sellShares(long currentTime) {
+    public void sellShares() {
         if (sharesHeld > 0) {
-            cashHeld = marketPriceTimeCoordinator.getPrice(currentTime) * sharesHeld;
+            cashHeld = marketPriceTimeCoordinator.getCurrentPrice() * sharesHeld;
             purchasePrice = 0;
             sharesHeld = 0;
         }
     }
 
-    public double getCurrentPortfolioValue(long currentTime) {
-        return cashHeld + marketPriceTimeCoordinator.getPrice(currentTime);
+    public void incrementTime(long delta, boolean shouldBuy) {
+
+        this.currentTime += delta;
+        this.marketPriceTimeCoordinator.incrementTime(delta);
+
+        if (shouldUpdateDueToDelta(delta)) {
+            //buy or sell based on global button state
+            if (shouldBuy && !hasShares()) buyShares();
+            else if (!shouldBuy && hasShares()) sellShares();
+        }
+    }
+
+    public double getCurrentPortfolioValue() {
+        return cashHeld + marketPriceTimeCoordinator.getCurrentPrice() * sharesHeld;
     }
 
     public UpcomingPrice getUpcomingPortfolioValue(long currentTime) {
-        UpcomingPrice upcomingMarketPrice = marketPriceTimeCoordinator.getUpcomingPrice(currentTime);
+        UpcomingPrice upcomingMarketPrice = marketPriceTimeCoordinator.getUpcomingPrice();
 
         return new UpcomingPrice(upcomingMarketPrice.getTimeRemaining(),
                 cashHeld + (upcomingMarketPrice.getPrice() * sharesHeld));
+    }
+
+    private boolean shouldUpdateDueToDelta(long delta) {
+        //check if it will cross a threshold time
+        long elapsedTime = this.currentTime - this.startTime;
+
+        return elapsedTime % timePerBuySellCheck < delta;
+    }
+
+    private boolean hasShares() {
+        return sharesHeld > 0;
     }
 }

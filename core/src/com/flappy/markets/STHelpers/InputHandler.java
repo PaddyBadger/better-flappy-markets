@@ -34,7 +34,7 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
+        myWorld.touching = true;
         if (myWorld.isReady()) {
 			myWorld.start();
 		}
@@ -44,13 +44,14 @@ public class InputHandler implements InputProcessor {
 		if (myWorld.isGameOver() || myWorld.isHighScore()) {
 			myWorld.restart();
 		}
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
-		return false;
+        myWorld.touching = false;
+		return true;
 	}
 
 	@Override

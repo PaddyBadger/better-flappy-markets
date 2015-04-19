@@ -4,15 +4,19 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.flappy.markets.STHelpers.AssetLoader;
 import com.flappy.markets.STHelpers.MarketDataProvider;
+import com.flappy.markets.STHelpers.MarketPriceTimeCoordinator;
+import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
 
 public class Bird {
 
     private long lastUpdate = 0;
 
+
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
-    private MarketDataProvider marketDataProvider;
+    private MarketPriceTimeCoordinator marketPriceTimeCoordinator;
+    private PortfolioTimeCoordinator portfolioTimeCoordinator;
     private float rotation;
     private int width;
     private int height;
@@ -34,7 +38,8 @@ public class Bird {
 
         isAlive = true;
 
-        marketDataProvider = new MarketDataProvider(241);
+        marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
+        portfolioTimeCoordinator = new PortfolioTimeCoordinator(15.92, 0, 500, 500, 241);
     }
 
     public void repositionX(float x){
@@ -44,10 +49,8 @@ public class Bird {
     public void slowUpdate(float delta) {
         long l = System.currentTimeMillis();
         long elapsed = l - lastUpdate;
-        if(elapsed > 500) {
-            lastUpdate = l;
-            bouncyUpdate(delta);
-        }
+        lastUpdate = l;
+        bouncyUpdate(delta);
     }
 
     public void bouncyUpdate(float delta) {
@@ -60,11 +63,6 @@ public class Bird {
             velocity.y = 200;
         }
 
-        // can't go higher than ceiling
-        if (position.y < -13) {
-            position.y = -13;
-            velocity.y = 0;
-        }
 
         // move
         position.add(velocity.cpy().scl(delta));
@@ -91,8 +89,16 @@ public class Bird {
             }
         }
 
-        // zane hack
-        // position.y = (float) marketDataProvider.get((int) Math.ceil(delta / 0.5));
+        // marketBird vs regular bird hack
+        if (lastUpdate > 0) {
+            marketPriceTimeCoordinator.incrementTime((long) (delta * 1000));
+            position.y = (float) marketPriceTimeCoordinator.getCurrentPrice() * -60 + 1000;
+        } else {
+            // change between buy and sell every 5 seconds
+            portfolioTimeCoordinator.incrementTime((long) (delta * 1000), (System.currentTimeMillis()/1000) % 10 > 5);
+            position.y = (float) portfolioTimeCoordinator.getCurrentPortfolioValue() * -60 + 1000;
+        }
+
     }
 
     public boolean isFalling() {
