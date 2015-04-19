@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.ScrollHandler;
+import com.flappy.markets.STHelpers.AssetLoader;
 import com.flappy.markets.STHelpers.MarketPriceTimeCoordinator;
 import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
 
@@ -29,6 +30,7 @@ public class GameWorld {
     public final static double STARTING_CASH = 1000000;
 
     public boolean touching = false;
+    private boolean alreadyPlaying = false;
 
     public List<Bird> getBirds() {
         return birds;
@@ -93,6 +95,11 @@ public class GameWorld {
 
             case RUNNING:
                 default:
+
+                if(!this.alreadyPlaying){
+                    AssetLoader.ending.play();
+                    this.alreadyPlaying = true;
+                }
                     updateRunning(delta);
                     break;
             }

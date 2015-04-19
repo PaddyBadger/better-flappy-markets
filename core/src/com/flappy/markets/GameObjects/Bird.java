@@ -81,7 +81,7 @@ public class Bird {
         UpcomingValue upcomingValue = valueTimeCoordinator.getUpcomingValue();
 
         if (shouldFlap(position.y, (float) upcomingValue.getValue() / -1000 + 1000, upcomingValue.getTimeRemaining()/1000)) {
-            AssetLoader.flap.play();
+//            AssetLoader.flap.play();
             velocity.y = FLAP_VELOCITY;
         }
 

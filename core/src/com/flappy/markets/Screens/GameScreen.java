@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		runTime += delta;
 
-        if(runTime > 10){
+        if(runTime > 60){
             world.currentState = GameWorld.GameState.GAMEOVER;
         }
 

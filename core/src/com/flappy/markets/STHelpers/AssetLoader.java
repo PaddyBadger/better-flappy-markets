@@ -159,7 +159,6 @@ public class AssetLoader {
 		dead.dispose();
 		flap.dispose();
 		coin.dispose();
-        ending.dispose();
 		font.dispose();
 		shadow.dispose();
 	}
