@@ -18,6 +18,7 @@ public class AssetLoader {
 	
 	public static Animation birdAnimation;
 	public static TextureRegion bird, birdDown, birdUp;
+    public static TextureRegion marketBird, marketBirdDown, marketBirdUp;
 	
 	public static TextureRegion bar;
 
