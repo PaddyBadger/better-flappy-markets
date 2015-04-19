@@ -9,6 +9,7 @@ import com.flappy.markets.GameObjects.Backdrop;
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.Building;
 import com.flappy.markets.GameObjects.Cloud;
+import com.flappy.markets.GameObjects.Poop;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
 
@@ -35,6 +36,8 @@ public class GameRenderer {
 
     private Bird bird;
     private Bird marketBird;
+    private List<Poop> pooplist = new ArrayList<Poop>();
+    private Poop poop1, poop2, poop3, poop4, poop5, poop6, poop7, poop8, poop9, poop10;
     private ScrollHandler scroller;
     private Backdrop backdrop1, backdrop2;
     private Building building1, building2, building3, building4, building5;
@@ -47,6 +50,7 @@ public class GameRenderer {
     private Animation marketBirdAnimation;
     private TextureRegion bar;
     private TextureRegion cloudImage;
+    private TextureRegion poopTexture;
 
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -88,6 +92,16 @@ public class GameRenderer {
         cloud1 = scroller.getCloud1();
         cloud2 = scroller.getCloud2();
         cloud3 = scroller.getCloud3();
+//        poop1 = scroller.getPoop1();
+//        poop2 = scroller.getPoop2();
+//        poop3 = scroller.getPoop3();
+//        poop4 = scroller.getPoop4();
+//        poop5 = scroller.getPoop5();
+//        poop6 = scroller.getPoop6();
+//        poop7 = scroller.getPoop7();
+//        poop8 = scroller.getPoop8();
+//        poop9 = scroller.getPoop9();
+//        poop10 = scroller.getPoop10();
     }
 
     private void initAssets() {
@@ -101,6 +115,7 @@ public class GameRenderer {
         buildingTexture2= AssetLoader.building2;
         buildingTexture3 = AssetLoader.building3;
         buildingTexture4 = AssetLoader.building4;
+       // poopTexture = AssetLoader.bigPoop;
     }
 
     private void drawBackground(GameLayer layer) {
@@ -118,7 +133,6 @@ public class GameRenderer {
 
         cloudLayer.getBatch().draw(cloudImage, cloud.getX(), cloud.getY() + cloud.getHeight(),
                 cloud.getWidth(), cloud.getHeight());
-
         cloudLayer.getBatch().draw(buildingBackdrop, backdrop1.getX(), backdrop1.getY(),
                 backdrop1.getWidth(), backdrop1.getHeight());
         cloudLayer.getBatch().draw(buildingBackdrop, backdrop2.getX(), backdrop2.getY(),
@@ -171,6 +185,26 @@ public class GameRenderer {
         drawBuildings(landLayer, building3, buildingTexture3);
         drawBuildings(landLayer, building4, buildingTexture4);
         drawBuildings(landLayer, building5, buildingTexture2);
+//        drawPoop(bird, poop1);
+//        drawPoop(marketBird, poop1);
+//        drawPoop(bird, poop2);
+//        drawPoop(marketBird, poop2);
+//        drawPoop(bird, poop3);
+//        drawPoop(marketBird, poop3);
+//        drawPoop(bird, poop4);
+//        drawPoop(marketBird, poop4);
+//        drawPoop(bird, poop5);
+//        drawPoop(marketBird, poop5);
+//        drawPoop(bird, poop6);
+//        drawPoop(marketBird, poop6);
+//        drawPoop(bird, poop7);
+//        drawPoop(marketBird, poop7);
+//        drawPoop(bird, poop8);
+//        drawPoop(marketBird, poop8);
+//        drawPoop(bird, poop9);
+//        drawPoop(marketBird, poop9);
+//        drawPoop(bird, poop10);
+//        drawPoop(marketBird, poop10);
         landLayer.stop();
 
         birdLayer.start();
@@ -188,6 +222,10 @@ public class GameRenderer {
         birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), b.getX(), b.getY(),
                 b.getWidth() / 2.0f, b.getHeight() / 2.0f,
                 b.getWidth(), b.getHeight(), 1, 1, b.getRotation());
+    }
+
+    private void drawPoop(Bird b, Poop poop) {
+        landLayer.getBatch().draw(poopTexture, b.getX(), b.getY(), poop.getWidth(), poop.getHeight());
     }
 
     private void drawHud() {
