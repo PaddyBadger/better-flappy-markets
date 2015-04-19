@@ -80,9 +80,7 @@ public class Bird {
 
         UpcomingValue upcomingValue = valueTimeCoordinator.getUpcomingValue();
 
-        System.out.println(upcomingValue.getValue());
-        System.out.println(upcomingValue.getValue() / -100000 + 100);
-        if (shouldFlap(position.y, (float) upcomingValue.getValue() / -100000 + 100, upcomingValue.getTimeRemaining()/1000)) {
+        if (shouldFlap(position.y, (float) upcomingValue.getValue() / -1000 + 1000, upcomingValue.getTimeRemaining()/1000)) {
             AssetLoader.flap.play();
             velocity.y = FLAP_VELOCITY;
         }

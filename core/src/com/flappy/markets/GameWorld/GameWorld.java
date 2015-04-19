@@ -111,7 +111,7 @@ public class GameWorld {
         marketBird.slowUpdate(delta);
 		scroller.update(delta);
 
-        this.score = marketPortfolioTimeCoordinator.getCurrentValue() - myPortfolioTimeCoordinator.getCurrentValue();
+        this.score = myPortfolioTimeCoordinator.getCurrentValue() - marketPortfolioTimeCoordinator.getCurrentValue();
         this.myMoney = myPortfolioTimeCoordinator.getCurrentValue();
         this.signal = marketPriceTimeCoordinator.getCurrentSignal();
 	}
