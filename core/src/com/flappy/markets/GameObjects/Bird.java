@@ -91,7 +91,8 @@ public class Bird {
             }
         }
 
-        position.y = (float) marketDataProvider.get((int) Math.ceil(delta / 0.5));
+        // zane hack
+        // position.y = (float) marketDataProvider.get((int) Math.ceil(delta / 0.5));
     }
 
     public boolean isFalling() {
