@@ -256,7 +256,6 @@ public class GameRenderer {
                         gameOverRegion.getRegionWidth() / 4,
                         gameOverRegion.getRegionHeight() / 4);
 
-                AssetLoader.ending.play();
                 AssetLoader.shadow.draw(hudBatch, scoreString, 75 - (3 * scoreString.length()), 65);
                 AssetLoader.font.draw(hudBatch,   scoreString,   75 - (3 * scoreString.length() - 1), 67);
 

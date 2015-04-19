@@ -116,7 +116,9 @@ public class GameWorld {
             currentState = GameState.GAMEOVER;
         }
 
-        this.score = myPortfolioTimeCoordinator.getCurrentValue() - marketPortfolioTimeCoordinator.getCurrentValue();
+        if(currentState != GameState.GAMEOVER) {
+            this.score = myPortfolioTimeCoordinator.getCurrentValue() - marketPortfolioTimeCoordinator.getCurrentValue();
+        }
         this.myMoney = myPortfolioTimeCoordinator.getCurrentValue();
         this.signal = marketPriceTimeCoordinator.getCurrentSignal();
 	}

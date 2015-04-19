@@ -31,10 +31,10 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		runTime += delta;
 
-        if(runTime > 60){
+        if(runTime > 10){
             world.currentState = GameWorld.GameState.GAMEOVER;
         }
-`
+
 		world.update(delta);
 		renderer.render(runTime);
 	}
