@@ -34,6 +34,7 @@ public class Bird {
 
         isAlive = true;
 
+        marketDataProvider = new MarketDataProvider(241);
     }
 
     public void repositionX(float x){
@@ -47,7 +48,6 @@ public class Bird {
             lastUpdate = l;
             bouncyUpdate(delta);
         }
-        marketDataProvider = new MarketDataProvider(241);
     }
 
     public void bouncyUpdate(float delta) {
