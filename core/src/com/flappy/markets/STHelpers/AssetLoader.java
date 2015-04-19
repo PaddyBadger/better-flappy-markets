@@ -32,7 +32,7 @@ public class AssetLoader {
 
     public static TextureRegion smallPoop, bigPoop;
 	
-	public static Sound dead, flap, coin;
+	public static Sound dead, flap, coin, ending;
 	
 	public static BitmapFont font, shadow;
 	
@@ -53,6 +53,7 @@ public class AssetLoader {
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
+        ending = Gdx.audio.newSound(Gdx.files.internal("data/GameMusicWithEnding.wav"));
 		
 		font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
 		font.setScale(.25f, -.25f);
@@ -149,6 +150,7 @@ public class AssetLoader {
 		dead.dispose();
 		flap.dispose();
 		coin.dispose();
+        ending.dispose();
 		font.dispose();
 		shadow.dispose();
 	}

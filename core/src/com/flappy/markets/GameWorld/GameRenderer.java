@@ -250,6 +250,8 @@ public class GameRenderer {
                     AssetLoader.shadow.draw(hudBatch, "High Score:", 23, 106);
                     AssetLoader.font.draw(hudBatch, "High Score", 22, 105);
 
+                    AssetLoader.ending.play();
+
                     String highScore = AssetLoader.getHighScore() + "";
 
                     AssetLoader.shadow.draw(hudBatch, highScore, (136 / 2)
