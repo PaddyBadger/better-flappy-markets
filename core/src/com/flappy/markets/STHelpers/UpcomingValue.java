@@ -5,18 +5,18 @@ package com.flappy.markets.STHelpers;
  */
 public class UpcomingValue {
     private long timeRemaining;
-    private double price;
+    private double value;
 
-    public UpcomingValue(long timeRemaining, double price) {
+    public UpcomingValue(long timeRemaining, double value) {
         this.timeRemaining = timeRemaining;
-        this.price = price;
+        this.value = value;
     }
 
     public long getTimeRemaining() {
         return timeRemaining;
     }
 
-    public double getPrice() {
-        return price;
+    public double getValue() {
+        return value;
     }
 }

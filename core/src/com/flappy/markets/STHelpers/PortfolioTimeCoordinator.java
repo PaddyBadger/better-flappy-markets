@@ -66,7 +66,7 @@ public class PortfolioTimeCoordinator implements ValueTimeCoordinator{
         UpcomingValue upcomingMarketPrice = marketPriceTimeCoordinator.getUpcomingValue();
 
         return new UpcomingValue(upcomingMarketPrice.getTimeRemaining(),
-                cashHeld + (upcomingMarketPrice.getPrice() * sharesHeld));
+                cashHeld + (upcomingMarketPrice.getValue() * sharesHeld));
     }
 
     private boolean shouldUpdateDueToDelta(long delta) {

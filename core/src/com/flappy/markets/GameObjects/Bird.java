@@ -6,6 +6,7 @@ import com.flappy.markets.STHelpers.AssetLoader;
 import com.flappy.markets.STHelpers.MarketDataProvider;
 import com.flappy.markets.STHelpers.MarketPriceTimeCoordinator;
 import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
+import com.flappy.markets.STHelpers.UpcomingValue;
 import com.flappy.markets.STHelpers.ValueTimeCoordinator;
 
 public class Bird {
@@ -26,6 +27,8 @@ public class Bird {
     private Circle boundingCircle;
 
     private boolean isAlive;
+
+    private static final float FLAP_VELOCITY = -140;
 
     public Bird(float x, float y, int width, int height, ValueTimeCoordinator valueTimeCoordinator) {
 
@@ -82,6 +85,13 @@ public class Bird {
             }
         }
 
+        UpcomingValue upcomingValue = valueTimeCoordinator.getUpcomingValue();
+
+        if (shouldFlap(position.y, (float) upcomingValue.getValue() * -60 + 1000, upcomingValue.getTimeRemaining()/1000)) {
+            AssetLoader.flap.play();
+            velocity.y = FLAP_VELOCITY;
+        }
+
         // if moving down fast or dead then rotate clockwise until vertical
         if (isFalling() || !isAlive) {
             rotation += 480 * delta;
@@ -90,7 +100,7 @@ public class Bird {
             }
         }
 
-        position.y = (float) valueTimeCoordinator.getCurrentValue() * -60 + 1000;
+//        position.y = (float) valueTimeCoordinator.getCurrentValue() * -60 + 1000;
     }
 
     public boolean isFalling() {
@@ -100,7 +110,7 @@ public class Bird {
     public void onClick() {
         if (isAlive) {
             AssetLoader.flap.play();
-            velocity.y = -140;
+            velocity.y = FLAP_VELOCITY;
         }
     }
 
@@ -155,6 +165,15 @@ public class Bird {
 
     public String toString(){
         return String.format("x:%s, y:%s", position.x, position.y);
+    }
+
+    private boolean shouldFlap(float altitude, float targetAltitude, float elapsedTime) {
+        float expectedFlapAltitude = altitude + altitudeChange(FLAP_VELOCITY, elapsedTime);
+        return targetAltitude < expectedFlapAltitude; //due to reverse axis
+    }
+
+    private float altitudeChange(float initialVelocity, float timeElapsed) {
+        return (initialVelocity * timeElapsed) + ((float) 0.5 * 460 * timeElapsed * timeElapsed);
     }
 
 }
