@@ -5,7 +5,7 @@ package com.flappy.markets.GameWorld;
  */
 public class CameraMan {
 
-    public final static int MAX_ZOOM_VELOCITY = 50; // m/s Maximum rate at which the top or bottom of the camera will move
+    public final static int MAX_ZOOM_VELOCITY = 100; // m/s Maximum rate at which the top or bottom of the camera will move
     public final static float CAMERA_LAG = 0.15f; // s Number of seconds that it would take to get the birds to the right spots on the screen
 
     private GameWorld myWorld;

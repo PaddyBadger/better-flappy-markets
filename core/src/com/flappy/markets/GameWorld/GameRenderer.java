@@ -140,14 +140,14 @@ public class GameRenderer {
 
         cloudLayer.start();
         cloudLayer.blend();
+        birdLayer.orient(width, height, bottom, 1f);
+        landLayer.orient(width, height, bottom, 0.4f);
 
         drawCloudLayer(cloudLayer, cloud1);
         drawCloudLayer(cloudLayer, cloud2);
         drawCloudLayer(cloudLayer, cloud3);
         cloudLayer.stop();
-        
-        birdLayer.orient(width, height, bottom);
-        
+
         landLayer.start();
         drawGrass(landLayer);
         drawBuildings(landLayer, building1);

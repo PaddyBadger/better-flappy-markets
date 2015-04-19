@@ -22,7 +22,7 @@ public class GameWorld {
 
     List<Bird> birds = new ArrayList<Bird>();
 
-    public final static int MIN_BIRD_SPREAD = 15; // m - We don't zoom any closer than as if the birds were N meters apart
+    public final static int MIN_BIRD_SPREAD = 50; // m - We don't zoom any closer than as if the birds were N meters apart
 
     public List<Bird> getBirds() {
         return birds;
@@ -43,8 +43,8 @@ public class GameWorld {
 	public GameWorld(int midPointY) {
 		currentState = GameState.READY;
 		this.midPointY = midPointY;
-		bird = new Bird(6, midPointY - 5, 17, 12);
-        marketBird = new Bird(6, midPointY + 5, 17, 12);
+		bird = new Bird(-7.5f, midPointY - 5, 17, 12);
+        marketBird = new Bird(-7.5f, midPointY + 5, 17, 12);
 		scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;

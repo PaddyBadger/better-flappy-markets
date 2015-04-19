@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameLayer {
 
-    public static final int SPRITE_WIDTH = -15;
+    public static final int SPRITE_WIDTH = 15;
 
     private float width;
     private float height;
@@ -36,12 +36,13 @@ public class GameLayer {
         this.batch.setProjectionMatrix(camera.combined);
     }
 
-    public void orient(float width, float height, float bottom){
+    public void orient(float width, float height, float bottom, float scale){
         this.width = width;
         this.height = height;
 
         camera.setToOrtho(true, width * 2, height * 2);
-        camera.position.set(camera.position.x - (width + SPRITE_WIDTH), camera.position.y + bottom, 0);
+        // shift left by half the width of the screen to center, then center the sprite by shifting half its width
+        camera.position.set(camera.position.x - width, camera.position.y + (bottom * scale), 0);
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
