@@ -19,11 +19,11 @@ public class ScrollHandler {
 		frontGrass = new Grass(0, yPos + 10, 170, 5, SCROLL_SPEED);
 		backGrass = new Grass(frontGrass.getTailX(), yPos + 10, 170, 5, SCROLL_SPEED);
 		
-		building1 = new Building(210,0,22,60,SCROLL_SPEED, yPos);
-		building2 = new Building(building1.getTailX() + BUILDING_GAP, 0, 22, 70, SCROLL_SPEED, yPos);
-		building3 = new Building(building2.getTailX() + BUILDING_GAP, 0, 22, 30, SCROLL_SPEED, yPos);
-        building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 22, 80, SCROLL_SPEED, yPos);
-        building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 22, 50, SCROLL_SPEED, yPos);
+		building1 = new Building(210,0,17,120,SCROLL_SPEED, yPos);
+		building2 = new Building(building1.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
+		building3 = new Building(building2.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
+        building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
+        building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
 
         cloud1 = new Cloud(220, 0, 100, 30, CLOUD_SCROLL_SPEED);
         cloud2 = new Cloud(cloud1.getTailX() + CLOUD_GAP, 10, 60, 20, CLOUD_SCROLL_SPEED);

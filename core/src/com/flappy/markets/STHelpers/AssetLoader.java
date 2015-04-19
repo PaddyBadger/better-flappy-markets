@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 	
 	public static Texture texture;
+    public static Texture background;
+    public static Texture buildings;
 	public static TextureRegion grass;
 	
 	public static Animation birdAnimation;
@@ -20,6 +22,10 @@ public class AssetLoader {
 	public static TextureRegion bar;
 
     public static TextureRegion cloud;
+
+    public static TextureRegion backgroundTexture;
+
+    public static TextureRegion building1, building2, building3, building4;
 
     public static TextureRegion smallPoop, bigPoop;
 	
@@ -71,7 +77,27 @@ public class AssetLoader {
 		
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
 		shadow.setScale(.25f, -.25f);
-		
+
+        background = new Texture(Gdx.files.internal("data/backgroundsunset.png"));
+        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        backgroundTexture = new TextureRegion(background, 0, 200, 500, 575);
+        backgroundTexture.flip(false, true);
+
+        buildings = new Texture((Gdx.files.internal("data/buildings.png")));
+        buildings.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        building1 = new TextureRegion(buildings, 0, 0, 80, 580);
+        building1.flip(false,  true);
+
+        building2 = new TextureRegion(buildings, 80, 0, 80, 580);
+        building2.flip(false,  true);
+
+        building3 = new TextureRegion(buildings, 160, 0, 100, 580);
+        building3.flip(false,  true);
+
+        building4 = new TextureRegion(buildings, 260, 0, 80, 580);
+        building4.flip(false,  true);
 	}
 	
 	public static void setHighScore(int val) {

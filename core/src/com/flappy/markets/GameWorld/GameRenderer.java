@@ -27,6 +27,7 @@ public class GameRenderer {
     private GameLayer birdLayer;
     private GameLayer cloudLayer;
     private GameLayer landLayer;
+    private GameLayer backgroundLayer;
 
     private int midPointY;
     private int gameHeight;
@@ -39,6 +40,8 @@ public class GameRenderer {
     private Cloud cloud1, cloud2, cloud3;
 
     private TextureRegion grass;
+    private TextureRegion background;
+    private TextureRegion buildingTexture1, buildingTexture2, buildingTexture3, buildingTexture4;
     private Animation birdAnimation;
     private TextureRegion bar;
     private TextureRegion cloudImage;
@@ -57,10 +60,12 @@ public class GameRenderer {
         this.birdLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
         this.cloudLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
         this.landLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
+        this.backgroundLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
 
         layers.add(hudLayer);
         layers.add(birdLayer);
         layers.add(cloudLayer);
+        layers.add(backgroundLayer);
 
         initGameObjects();
         initAssets();
@@ -87,8 +92,12 @@ public class GameRenderer {
 
         grass = AssetLoader.grass;
         birdAnimation = AssetLoader.birdAnimation;
-        bar = AssetLoader.bar;
         cloudImage = AssetLoader.cloud;
+        background = AssetLoader.backgroundTexture;
+        buildingTexture1 = AssetLoader.building1;
+        buildingTexture2= AssetLoader.building2;
+        buildingTexture3 = AssetLoader.building3;
+        buildingTexture4 = AssetLoader.building4;
     }
 
     private void drawGrass(GameLayer layer) {
@@ -100,9 +109,13 @@ public class GameRenderer {
                 backGrass.getWidth(), backGrass.getHeight());
     }
 
-    private void drawBuildings(GameLayer layer, Building building) {
+    private void drawBackground(GameLayer layer) {
+        layer.getBatch().draw(background, 0, 0);
+    }
 
-        layer.getBatch().draw(bar, building.getX(), building.getY() + building.getHeight(),
+    private void drawBuildings(GameLayer layer, Building building, TextureRegion buildingTexture) {
+
+        layer.getBatch().draw(buildingTexture, building.getX(), building.getY() + building.getHeight(),
                 building.getWidth(), midPointY + 66 - (building.getHeight()));
     }
 
@@ -120,12 +133,16 @@ public class GameRenderer {
 
         // magic.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glClearColor(202 / 255f, 227 / 255f, 246 / 255f, 1);
         Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
         Gdx.gl.glDisable(GL20.GL_CULL_FACE);
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glEnable(GL20.GL_TEXTURE_2D);
         Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
+
+        backgroundLayer.start();
+        backgroundLayer.blend();
+        drawBackground(backgroundLayer);
+        backgroundLayer.stop();
         
         final CameraMan cameraMan = myWorld.getCameraMan();
         cameraMan.update(runTime);
@@ -149,12 +166,13 @@ public class GameRenderer {
         cloudLayer.stop();
 
         landLayer.start();
+        landLayer.blend();
         drawGrass(landLayer);
-        drawBuildings(landLayer, building1);
-        drawBuildings(landLayer, building2);
-        drawBuildings(landLayer, building3);
-        drawBuildings(landLayer, building4);
-        drawBuildings(landLayer, building5);
+        drawBuildings(landLayer, building1, buildingTexture1);
+        drawBuildings(landLayer, building2, buildingTexture2);
+        drawBuildings(landLayer, building3, buildingTexture3);
+        drawBuildings(landLayer, building4, buildingTexture4);
+        drawBuildings(landLayer, building5, buildingTexture2);
         landLayer.stop();
 
         birdLayer.start();
