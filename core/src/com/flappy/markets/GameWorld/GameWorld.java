@@ -24,7 +24,7 @@ public class GameWorld {
 
     List<Bird> birds = new ArrayList<Bird>();
 
-    public final static int MIN_BIRD_SPREAD = 50; // m - We don't zoom any closer than as if the birds were N meters apart
+    public final static int MIN_BIRD_SPREAD = 150; // m - We don't zoom any closer than as if the birds were N meters apart
 
     public boolean touching = false;
 
@@ -35,6 +35,7 @@ public class GameWorld {
     private Rectangle ground;
 
 	private double score = 0.0;
+    private double signal = 0.0;
 
 	private GameState currentState;
 	public int midPointY;
@@ -55,8 +56,8 @@ public class GameWorld {
         portfolioTimeCoordinator =  new PortfolioTimeCoordinator(marketPriceTimeCoordinator.getCurrentValue(), 0, 500, 500, 241);
         portfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
 
-        bird = new Bird(-5.5f, midPointY, 17, 12, marketPriceTimeCoordinator);
-        marketBird = new Bird(-8.5f, midPointY, 17, 12, portfolioTimeCoordinator);
+        bird = new Bird(-6.5f, midPointY, 17, 12, marketPriceTimeCoordinator);
+        marketBird = new Bird(-10.5f, midPointY, 17, 12, portfolioTimeCoordinator);
         scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
@@ -78,15 +79,15 @@ public class GameWorld {
 
         //TOOD: END THE GAME AT SOME POINT
 		switch (currentState) {
-		case READY:
-			updateReady(delta);
-			break;
+            case READY:
+                updateReady(delta);
+                break;
 
-		case RUNNING:
-			default:
-				updateRunning(delta);
-				break;
-		}
+            case RUNNING:
+                default:
+                    updateRunning(delta);
+                    break;
+            }
 	}
 
 	private void updateReady(float delta) {
@@ -102,6 +103,7 @@ public class GameWorld {
 		scroller.update(delta);
 
         this.score = portfolioTimeCoordinator.getCurrentValue() - marketPriceTimeCoordinator.getCurrentValue();
+        this.signal = marketPriceTimeCoordinator.getCurrentSignal();
 	}
 
 	public Bird getBird() {
@@ -123,6 +125,10 @@ public class GameWorld {
 	public double getScore() {
 		return score;
 	}
+
+    public double getSignal() {
+        return signal;
+    }
 
 	public void addScore(int increment) {
 		score += increment;

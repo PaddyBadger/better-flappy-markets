@@ -9,7 +9,6 @@ import com.flappy.markets.GameObjects.Backdrop;
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.Building;
 import com.flappy.markets.GameObjects.Cloud;
-import com.flappy.markets.GameObjects.Poop;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
 
@@ -36,8 +35,8 @@ public class GameRenderer {
 
     private Bird bird;
     private Bird marketBird;
-    private List<Poop> pooplist = new ArrayList<Poop>();
-    private Poop poop1, poop2, poop3, poop4, poop5, poop6, poop7, poop8, poop9, poop10;
+//    private List<Poop> pooplist = new ArrayList<Poop>();
+//    private Poop poop1, poop2, poop3, poop4, poop5, poop6, poop7, poop8, poop9, poop10;
     private ScrollHandler scroller;
     private Backdrop backdrop1, backdrop2;
     private Building building1, building2, building3, building4, building5;
@@ -50,7 +49,7 @@ public class GameRenderer {
     private Animation marketBirdAnimation;
     private TextureRegion bar;
     private TextureRegion cloudImage;
-    private TextureRegion poopTexture;
+  //  private TextureRegion poopTexture;
 
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -89,6 +88,12 @@ public class GameRenderer {
         building3 = scroller.getBuilding3();
         building4 = scroller.getBuilding4();
         building5 = scroller.getBuilding5();
+//        building6 = scroller.getBuilding6();
+//        building7 = scroller.getBuilding7();
+//        building8 = scroller.getBuilding8();
+//        building9 = scroller.getBuilding9();
+//        building10 = scroller.getBuilding10();
+
         cloud1 = scroller.getCloud1();
         cloud2 = scroller.getCloud2();
         cloud3 = scroller.getCloud3();
@@ -125,7 +130,7 @@ public class GameRenderer {
     private void drawBuildings(GameLayer layer, Building building, TextureRegion buildingTexture) {
 
         layer.getBatch().draw(buildingTexture, building.getX(), building.getY() + building.getHeight(),
-                building.getWidth(), midPointY + 66 - (building.getHeight()));
+                building.getWidth(), gameHeight - (building.getHeight()));
     }
 
    
@@ -171,7 +176,7 @@ public class GameRenderer {
         cloudLayer.start();
         cloudLayer.blend();
         birdLayer.orient(width, height, bottom, 1f);
-        landLayer.orient(width, height, bottom, 0.4f);
+        // landLayer.orient(width, height, bottom, 0.005f);
 
         drawCloudLayer(cloudLayer, cloud1);
         drawCloudLayer(cloudLayer, cloud2);
@@ -224,9 +229,9 @@ public class GameRenderer {
                 b.getWidth(), b.getHeight(), 1, 1, b.getRotation());
     }
 
-    private void drawPoop(Bird b, Poop poop) {
-        landLayer.getBatch().draw(poopTexture, b.getX(), b.getY(), poop.getWidth(), poop.getHeight());
-    }
+//    private void drawPoop(Bird b, Poop poop) {
+//        landLayer.getBatch().draw(poopTexture, b.getX(), b.getY(), poop.getWidth(), poop.getHeight());
+//    }
 
     private void drawHud() {
 
@@ -262,9 +267,11 @@ public class GameRenderer {
                 AssetLoader.font.draw(hudBatch, "Try Again?", 24, 75);
 
                 drawScore(hudBatch, myWorld.getScore());
+                drawSignal(hudBatch, myWorld.getSignal());
             }
 
             drawScore(hudBatch, myWorld.getScore());
+            drawSignal(hudBatch, myWorld.getSignal());
         }
     }
 
@@ -279,5 +286,18 @@ public class GameRenderer {
 
         AssetLoader.shadow.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length()), 12);
         AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);
+    }
+
+    private void drawSignal(SpriteBatch batch, double score) {
+
+        String scoreString = "HOLD";
+        if (score > 0) {
+            scoreString = "BUY";
+        } else if (score < 0) {
+            scoreString = "SELL";
+        }
+
+        AssetLoader.shadow.draw(batch, scoreString, 50, 200);
+        AssetLoader.font.draw(batch, scoreString, 50, 200);
     }
 }
