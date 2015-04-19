@@ -80,7 +80,9 @@ public class Bird {
 
         UpcomingValue upcomingValue = valueTimeCoordinator.getUpcomingValue();
 
-        if (shouldFlap(position.y, (float) upcomingValue.getValue() * -60 + 1000, upcomingValue.getTimeRemaining()/1000)) {
+        System.out.println(upcomingValue.getValue());
+        System.out.println(upcomingValue.getValue() / -100000 + 100);
+        if (shouldFlap(position.y, (float) upcomingValue.getValue() / -100000 + 100, upcomingValue.getTimeRemaining()/1000)) {
             AssetLoader.flap.play();
             velocity.y = FLAP_VELOCITY;
         }
@@ -98,10 +100,10 @@ public class Bird {
     }
 
     public void onClick() {
-        if (isAlive) {
-            AssetLoader.flap.play();
-            velocity.y = FLAP_VELOCITY;
-        }
+//        if (isAlive) {
+//            AssetLoader.flap.play();
+//            velocity.y = FLAP_VELOCITY;
+//        }
     }
 
     public void onRestart(int y) {
@@ -159,7 +161,7 @@ public class Bird {
     }
 
     private float altitudeChange(float initialVelocity, float timeElapsed) {
-        return (initialVelocity * timeElapsed) + ((float) 0.5 * 460 * timeElapsed * timeElapsed);
+        return (initialVelocity * timeElapsed) + ((float) 0.5 * acceleration.y * timeElapsed * timeElapsed);
     }
 
 }

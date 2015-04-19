@@ -26,6 +26,8 @@ public class GameWorld {
 
     public final static int MIN_BIRD_SPREAD = 150; // m - We don't zoom any closer than as if the birds were N meters apart
 
+    public final static double STARTING_CASH = 1000000;
+
     public boolean touching = false;
 
     public List<Bird> getBirds() {
@@ -36,11 +38,13 @@ public class GameWorld {
 
 	private double score = 0.0;
     private double signal = 0.0;
+    private double myMoney = 0.0;
 
 	private GameState currentState;
 	public int midPointY;
 
-    PortfolioTimeCoordinator portfolioTimeCoordinator;
+    PortfolioTimeCoordinator myPortfolioTimeCoordinator;
+    PortfolioTimeCoordinator marketPortfolioTimeCoordinator;
     MarketPriceTimeCoordinator marketPriceTimeCoordinator;
 
     public enum GameState {
@@ -53,11 +57,15 @@ public class GameWorld {
 		this.midPointY = midPointY;
 
         marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
-        portfolioTimeCoordinator =  new PortfolioTimeCoordinator(marketPriceTimeCoordinator.getCurrentValue(), 0, 500, 500, 241);
-        portfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
+        myPortfolioTimeCoordinator =  new PortfolioTimeCoordinator(STARTING_CASH, 0, 500, 500, 241);
+        marketPortfolioTimeCoordinator =  new PortfolioTimeCoordinator(STARTING_CASH, 0, 500, 500, 241);
 
-        bird = new Bird(-6.5f, midPointY, 17, 12, marketPriceTimeCoordinator);
-        marketBird = new Bird(-10.5f, midPointY, 17, 12, portfolioTimeCoordinator);
+        myPortfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
+        marketPortfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
+
+        bird = new Bird(-6.5f, midPointY, 17, 12, myPortfolioTimeCoordinator);
+        marketBird = new Bird(-10.5f, midPointY, 17, 12, marketPortfolioTimeCoordinator);
+        
         scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
@@ -96,13 +104,15 @@ public class GameWorld {
 
 	public void updateRunning(float delta) {
         marketPriceTimeCoordinator.incrementTime((long) (delta * 1000));
-        portfolioTimeCoordinator.incrementTime((long) (delta * 1000), touching);
+        marketPortfolioTimeCoordinator.incrementTime((long) (delta * 1000), true); // market bird never sells
+        myPortfolioTimeCoordinator.incrementTime((long) (delta * 1000), touching);
 
         bird.bouncyUpdate(delta);
         marketBird.slowUpdate(delta);
 		scroller.update(delta);
 
-        this.score = portfolioTimeCoordinator.getCurrentValue() - marketPriceTimeCoordinator.getCurrentValue();
+        this.score = marketPortfolioTimeCoordinator.getCurrentValue() - myPortfolioTimeCoordinator.getCurrentValue();
+        this.myMoney = myPortfolioTimeCoordinator.getCurrentValue();
         this.signal = marketPriceTimeCoordinator.getCurrentSignal();
 	}
 
