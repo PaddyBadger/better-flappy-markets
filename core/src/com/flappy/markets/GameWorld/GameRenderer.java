@@ -119,8 +119,6 @@ public class GameRenderer {
     public void render(float runTime) {
 
         // magic.
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glClearColor(202 / 255f, 227 / 255f, 246 / 255f, 1);
         Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
