@@ -40,9 +40,9 @@ public class GameLayer {
         this.width = width;
         this.height = height;
 
-        camera.setToOrtho(true, width * 2, height * 2);
+        camera.setToOrtho(true, width, height);
         // shift left by half the width of the screen to center, then center the sprite by shifting half its width
-        camera.position.set(camera.position.x - width, camera.position.y + (bottom * scale), 0);
+        camera.position.set(camera.position.x - (width/2), camera.position.y + (bottom * scale), 0);
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
