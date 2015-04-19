@@ -37,7 +37,7 @@ public class GameRenderer {
     private Bird marketBird;
     private ScrollHandler scroller;
     private Backdrop backdrop1, backdrop2;
-    private Building building1, building2, building3, building4, building5;
+    private Building building1, building2, building3, building4, building5, building6, building7, building8, building9, building10;
     private Cloud cloud1, cloud2, cloud3;
 
     private TextureRegion buildingBackdrop;
@@ -78,13 +78,21 @@ public class GameRenderer {
         bird = myWorld.getBird();
         marketBird = myWorld.getMarketBird();
         scroller = myWorld.getScroller();
+
         backdrop1 = scroller.getBackdrop1();
         backdrop2 = scroller.getBackdrop2();
+
         building1 = scroller.getBuilding1();
         building2 = scroller.getBuilding2();
         building3 = scroller.getBuilding3();
         building4 = scroller.getBuilding4();
         building5 = scroller.getBuilding5();
+//        building6 = scroller.getBuilding6();
+//        building7 = scroller.getBuilding7();
+//        building8 = scroller.getBuilding8();
+//        building9 = scroller.getBuilding9();
+//        building10 = scroller.getBuilding10();
+
         cloud1 = scroller.getCloud1();
         cloud2 = scroller.getCloud2();
         cloud3 = scroller.getCloud3();
@@ -97,6 +105,7 @@ public class GameRenderer {
         marketBirdAnimation = AssetLoader.marketBirdAnimation;
         cloudImage = AssetLoader.cloud;
         background = AssetLoader.backgroundTexture;
+
         buildingTexture1 = AssetLoader.building1;
         buildingTexture2= AssetLoader.building2;
         buildingTexture3 = AssetLoader.building3;
@@ -110,7 +119,7 @@ public class GameRenderer {
     private void drawBuildings(GameLayer layer, Building building, TextureRegion buildingTexture) {
 
         layer.getBatch().draw(buildingTexture, building.getX(), building.getY() + building.getHeight(),
-                building.getWidth(), midPointY + 66 - (building.getHeight()));
+                building.getWidth(), gameHeight - (building.getHeight()));
     }
 
    
@@ -157,7 +166,7 @@ public class GameRenderer {
         cloudLayer.start();
         cloudLayer.blend();
         birdLayer.orient(width, height, bottom, 1f);
-        landLayer.orient(width, height, bottom, 0.4f);
+        // landLayer.orient(width, height, bottom, 0.005f);
 
         drawCloudLayer(cloudLayer, cloud1);
         drawCloudLayer(cloudLayer, cloud2);
@@ -166,11 +175,18 @@ public class GameRenderer {
 
         landLayer.start();
         landLayer.blend();
+
         drawBuildings(landLayer, building1, buildingTexture1);
         drawBuildings(landLayer, building2, buildingTexture2);
         drawBuildings(landLayer, building3, buildingTexture3);
         drawBuildings(landLayer, building4, buildingTexture4);
-        drawBuildings(landLayer, building5, buildingTexture2);
+        drawBuildings(landLayer, building5, buildingTexture1);
+//        drawBuildings(landLayer, building6, buildingTexture2);
+//        drawBuildings(landLayer, building7, buildingTexture3);
+//        drawBuildings(landLayer, building8, buildingTexture4);
+//        drawBuildings(landLayer, building7, buildingTexture1);
+//        drawBuildings(landLayer, building10, buildingTexture2);
+
         landLayer.stop();
 
         birdLayer.start();

@@ -5,7 +5,7 @@ import com.flappy.markets.GameWorld.GameWorld;
 public class ScrollHandler {
 	
 	private Backdrop backdrop1, backdrop2;
-	private Building building1, building2, building3, building4, building5;
+	private Building building1, building2, building3, building4, building5, building6, building7, building8, building9, building10;
 	private GameWorld gameWorld;
     private Cloud cloud1, cloud2, cloud3;
     private Poop poop1, poop2, poop3, poop4, poop5, poop6, poop7, poop8, poop9, poop10;
@@ -20,11 +20,17 @@ public class ScrollHandler {
 		backdrop1 = new Backdrop(0, yPos - 10, 170, 130, CLOUD_SCROLL_SPEED);
 		backdrop2 = new Backdrop(backdrop1.getTailX(), yPos - 10, 170, 130, CLOUD_SCROLL_SPEED);
 		
-		building1 = new Building(210, 0, 22, 120,SCROLL_SPEED, yPos);
+		building1 = new Building(0, 0, 22, 120,SCROLL_SPEED, yPos);
 		building2 = new Building(building1.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
 		building3 = new Building(building2.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
         building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
         building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+
+//        building6 = new Building(building5.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+//        building7 = new Building(building6.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+//        building8 = new Building(building7.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+//        building9 = new Building(building8.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+//        building10 = new Building(building9.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
 
         cloud1 = new Cloud(220, 0, 100, 30, CLOUD_SCROLL_SPEED);
         cloud2 = new Cloud(cloud1.getTailX() + CLOUD_GAP, 10, 60, 20, CLOUD_SCROLL_SPEED);
@@ -45,11 +51,13 @@ public class ScrollHandler {
 	public void update(float delta) {
 		backdrop1.update(delta);
 		backdrop2.update(delta);
+
 		building1.update(delta);
 		building2.update(delta);
 		building3.update(delta);
         building4.update(delta);
         building5.update(delta);
+
         cloud1.update(delta);
         cloud2.update(delta);
         cloud3.update(delta);
@@ -65,6 +73,17 @@ public class ScrollHandler {
         } else if (building5.isScrolledLeft()) {
             building5.reset(building4.getTailX() + BUILDING_GAP);
         }
+//        else if (building6.isScrolledLeft()) {
+//            building6.reset(building5.getTailX() + BUILDING_GAP);
+//        } else if (building7.isScrolledLeft()) {
+//            building7.reset(building6.getTailX() + BUILDING_GAP);
+//        } else if (building8.isScrolledLeft()) {
+//            building8.reset(building7.getTailX() + BUILDING_GAP);
+//        } else if (building9.isScrolledLeft()) {
+//            building9.reset(building8.getTailX() + BUILDING_GAP);
+//        } else if (building10.isScrolledLeft()) {
+//            building10.reset(building9.getTailX() + BUILDING_GAP);
+//        }
 
         if (cloud1.isScrolledLeft()) {
             cloud1.reset(cloud3.getTailX() + CLOUD_GAP);
@@ -92,47 +111,32 @@ public class ScrollHandler {
 		building3.stop();
         building4.stop();
         building5.stop();
+//        building6.stop();
+//        building7.stop();
+//        building8.stop();
+//        building9.stop();
+//        building10.stop();
         cloud1.stop();
         cloud2.stop();
         cloud3.stop();
 
     }
-
-//TODO: figure out scoring / market diff @ these points
-//	public boolean collides(Bird bird) {
-//		if (!pipe1.isScored() && pipe1.getX() + (pipe1.getWidth() / 2) <bird.getX() + bird.getWidth()) {
-//			addScore(1);
-//			pipe1.setScored(true);
-//			AssetLoader.coin.play();
-//		} else if (!pipe2.isScored() && pipe2.getX() + (pipe2.getWidth() / 2) < bird.getX() + bird.getWidth()) {
-//			addScore(1);
-//			pipe2.setScored(true);
-//			AssetLoader.coin.play();
-//		} else if (!pipe3.isScored() && pipe3.getX() + (pipe3.getWidth() /2) < bird.getX() + bird.getWidth()) {
-//			addScore(1);
-//			pipe3.setScored(true);
-//			AssetLoader.coin.play();
-//		} else if (!pipe4.isScored() && pipe4.getX() + (pipe4.getWidth() /2) < bird.getX() + bird.getWidth()) {
-//            addScore(1);
-//            pipe4.setScored(true);
-//            AssetLoader.coin.play();
-//        } else if (!pipe5.isScored() && pipe5.getX() + (pipe5.getWidth() /2) < bird.getX() + bird.getWidth()) {
-//            addScore(1);
-//            pipe5.setScored(true);
-//            AssetLoader.coin.play();
-//        }
-//
-//		return (pipe1.collides(bird) || pipe2.collides(bird) || pipe3.collides(bird));
-//	}
 	
 	public void onRestart() {
 		backdrop1.onRestart(0, SCROLL_SPEED);
 		backdrop2.onRestart(backdrop1.getTailX(), SCROLL_SPEED);
-		building1.onRestart(210, SCROLL_SPEED);
+
+		building1.onRestart(220, SCROLL_SPEED);
 		building2.onRestart(building1.getTailX() + BUILDING_GAP, SCROLL_SPEED);
 		building3.onRestart(building2.getTailX() + BUILDING_GAP, SCROLL_SPEED);
         building4.onRestart(building3.getTailX() + BUILDING_GAP, SCROLL_SPEED);
         building5.onRestart(building4.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+//        building6.onRestart(building5.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+//        building7.onRestart(building6.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+//        building8.onRestart(building7.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+//        building9.onRestart(building8.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+//        building10.onRestart(building9.getTailX() + BUILDING_GAP, SCROLL_SPEED);
+
         cloud1.onRestart(220, CLOUD_SCROLL_SPEED);
         cloud2.onRestart(cloud1.getTailX() + CLOUD_GAP, CLOUD_SCROLL_SPEED);
         cloud3.onRestart(cloud2.getTailX() + CLOUD_GAP, CLOUD_SCROLL_SPEED);
@@ -161,6 +165,11 @@ public class ScrollHandler {
 	}
     public Building getBuilding4() { return building4; }
     public Building getBuilding5() { return building5; }
+//    public Building getBuilding6() { return building6; }
+//    public Building getBuilding7() { return building7; }
+//    public Building getBuilding8() { return building8; }
+//    public Building getBuilding9() { return building9; }
+//    public Building getBuilding10() { return building10; }
 
     public Cloud getCloud1() { return cloud1; }
     public Cloud getCloud2() { return cloud2; }
