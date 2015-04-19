@@ -44,14 +44,6 @@ public class Building extends Scrollable {
 		return barUp;
 	}
 
-	public boolean collides(Bird bird) {
-		if (position.x < bird.getX() + bird.getWidth()) {
-			return (Intersector.overlaps(bird.getBoundingCircle(), barUp) );
-		}
-		
-		return false;
-	}
-	
 	public boolean isScored() {
 		return isScored;
 	}

@@ -34,7 +34,7 @@ public class GameWorld {
 
     private Rectangle ground;
 
-	private int score = 0;
+	private double score = 0.0;
 
 	private GameState currentState;
 	public int midPointY;
@@ -52,11 +52,11 @@ public class GameWorld {
 		this.midPointY = midPointY;
 
         marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
-        portfolioTimeCoordinator =  new PortfolioTimeCoordinator(15.92, 0, 500, 500, 241);
+        portfolioTimeCoordinator =  new PortfolioTimeCoordinator(marketPriceTimeCoordinator.getCurrentValue(), 0, 500, 500, 241);
         portfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
 
-        bird = new Bird(-7.5f, midPointY - 5, 17, 12, marketPriceTimeCoordinator);
-        marketBird = new Bird(-7.5f, midPointY + 5, 17, 12, portfolioTimeCoordinator);
+        bird = new Bird(-5.5f, midPointY, 17, 12, marketPriceTimeCoordinator);
+        marketBird = new Bird(-8.5f, midPointY, 17, 12, portfolioTimeCoordinator);
         scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
@@ -100,6 +100,8 @@ public class GameWorld {
         bird.bouncyUpdate(delta);
         marketBird.slowUpdate(delta);
 		scroller.update(delta);
+
+        this.score = portfolioTimeCoordinator.getCurrentValue() - marketPriceTimeCoordinator.getCurrentValue();
 	}
 
 	public Bird getBird() {
@@ -118,7 +120,7 @@ public class GameWorld {
         return cameraMan;
     }
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
