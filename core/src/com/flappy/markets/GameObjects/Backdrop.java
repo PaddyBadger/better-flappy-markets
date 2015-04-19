@@ -1,8 +1,8 @@
 package com.flappy.markets.GameObjects;
 
-public class Grass extends Scrollable {
+public class Backdrop extends Scrollable {
 	
-	public Grass(float x, float y, int width, int height, float scrollSpeed) {
+	public Backdrop(float x, float y, int width, int height, float scrollSpeed) {
 		super(x, y, width, height, scrollSpeed);
 	}
 	

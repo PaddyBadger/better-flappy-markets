@@ -14,10 +14,13 @@ public class AssetLoader {
 	public static Texture texture;
     public static Texture background;
     public static Texture buildings;
-	public static TextureRegion grass;
-	
+    public static Texture marketbirdTexture;
+
 	public static Animation birdAnimation;
-	public static TextureRegion bird, birdDown, birdUp;
+    public static Animation marketBirdAnimation;
+
+    public static TextureRegion bird, birdDown, birdUp;
+    public static TextureRegion marketBird, marketBirdDown, marketBirdUp;
 	
 	public static TextureRegion bar;
 
@@ -25,7 +28,7 @@ public class AssetLoader {
 
     public static TextureRegion backgroundTexture;
 
-    public static TextureRegion building1, building2, building3, building4;
+    public static TextureRegion building1, building2, building3, building4, buildingBackdrop;
 
     public static TextureRegion smallPoop, bigPoop;
 	
@@ -41,29 +44,8 @@ public class AssetLoader {
 		if (!prefs.contains("highScore")) {
 			prefs.putInteger("highScore", 0);
 		}
-		
-		texture = new Texture(Gdx.files.internal("data/flappymarkets.png"));
-		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		
-		grass = new TextureRegion(texture, 0, 33, 170, 5);
-		grass.flip(false,  true);
-		
-		birdDown = new TextureRegion(texture, 0, 100, 245, 200);
-		birdDown.flip(false,  true);
-		
-		bird = new TextureRegion(texture, 300, 100, 245, 200);
-		bird.flip(false,  true);
-		
-		birdUp = new TextureRegion(texture, 600, 100, 245, 200);
-		birdUp.flip(false,  true);
-		
-		TextureRegion[] birds = { birdDown, bird, birdUp };
-		birdAnimation = new Animation(0.06f, birds);
-		birdAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
-        cloud = new TextureRegion(texture, 0, 300, 600, 300);
-        cloud.flip(false, true);
-
+        makeBirdAndCloudsAndPoop();
 
 		bar = new TextureRegion(texture, 152, 0, 22, 30);
 		bar.flip(false,  true);
@@ -78,12 +60,30 @@ public class AssetLoader {
 		shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
 		shadow.setScale(.25f, -.25f);
 
-        background = new Texture(Gdx.files.internal("data/backgroundsunset.png"));
-        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        makeBackground();
+        makeBuildings();
+        makeMarketBird();
+	}
 
-        backgroundTexture = new TextureRegion(background, 0, 200, 500, 575);
-        backgroundTexture.flip(false, true);
+    private static void makeMarketBird() {
+        marketbirdTexture = new Texture(Gdx.files.internal("data/marketbarry.png"));
+        marketbirdTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
+        marketBirdDown = new TextureRegion(marketbirdTexture, 300, 0, 245, 200);
+        marketBirdDown.flip(false, true);
+
+        marketBird = new TextureRegion(marketbirdTexture, 0, 0, 245, 200);
+        marketBird.flip(false, true);
+
+        marketBirdUp = new TextureRegion(marketbirdTexture, 600, 0, 245, 200);
+        marketBirdUp.flip(false, true);
+
+        TextureRegion[] birds = { marketBirdDown, marketBird, marketBirdUp };
+        marketBirdAnimation = new Animation(0.06f, birds);
+        marketBirdAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+    }
+
+    private static void makeBuildings() {
         buildings = new Texture((Gdx.files.internal("data/buildings.png")));
         buildings.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
@@ -98,9 +98,43 @@ public class AssetLoader {
 
         building4 = new TextureRegion(buildings, 260, 0, 80, 580);
         building4.flip(false,  true);
-	}
-	
-	public static void setHighScore(int val) {
+
+        buildingBackdrop = new TextureRegion(buildings, 340, 120, 740, 460);
+        buildingBackdrop.flip(false, true);
+    }
+
+    private static void makeBackground() {
+        background = new Texture(Gdx.files.internal("data/backgroundsunset.png"));
+        background.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        backgroundTexture = new TextureRegion(background, 0, 200, 500, 575);
+        backgroundTexture.flip(false, true);
+    }
+
+    private static void makeBirdAndCloudsAndPoop() {
+        texture = new Texture(Gdx.files.internal("data/flappymarkets.png"));
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+
+        birdDown = new TextureRegion(texture, 0, 100, 245, 200);
+        birdDown.flip(false,  true);
+
+        bird = new TextureRegion(texture, 300, 100, 245, 200);
+        bird.flip(false,  true);
+
+        birdUp = new TextureRegion(texture, 600, 100, 245, 200);
+        birdUp.flip(false,  true);
+
+        TextureRegion[] birds = { birdDown, bird, birdUp };
+        birdAnimation = new Animation(0.06f, birds);
+        birdAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+        cloud = new TextureRegion(texture, 0, 300, 600, 300);
+        cloud.flip(false, true);
+
+        bigPoop = new TextureRegion(texture, 0, 0, 50, 50);
+    }
+
+    public static void setHighScore(int val) {
 		prefs.putInteger("highScore", val);
 		prefs.flush();
 	}

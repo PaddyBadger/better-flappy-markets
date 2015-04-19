@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.flappy.markets.GameObjects.Backdrop;
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.Building;
 import com.flappy.markets.GameObjects.Cloud;
-import com.flappy.markets.GameObjects.Grass;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
 
@@ -36,14 +36,15 @@ public class GameRenderer {
     private Bird bird;
     private Bird marketBird;
     private ScrollHandler scroller;
-    private Grass frontGrass, backGrass;
+    private Backdrop backdrop1, backdrop2;
     private Building building1, building2, building3, building4, building5;
     private Cloud cloud1, cloud2, cloud3;
 
-    private TextureRegion grass;
+    private TextureRegion buildingBackdrop;
     private TextureRegion background;
     private TextureRegion buildingTexture1, buildingTexture2, buildingTexture3, buildingTexture4;
     private Animation birdAnimation;
+    private Animation marketBirdAnimation;
     private TextureRegion bar;
     private TextureRegion cloudImage;
 
@@ -77,8 +78,8 @@ public class GameRenderer {
         bird = myWorld.getBird();
         marketBird = myWorld.getMarketBird();
         scroller = myWorld.getScroller();
-        frontGrass = scroller.getFrontGrass();
-        backGrass = scroller.getBackGrass();
+        backdrop1 = scroller.getBackdrop1();
+        backdrop2 = scroller.getBackdrop2();
         building1 = scroller.getBuilding1();
         building2 = scroller.getBuilding2();
         building3 = scroller.getBuilding3();
@@ -91,23 +92,15 @@ public class GameRenderer {
 
     private void initAssets() {
 
-        grass = AssetLoader.grass;
+        buildingBackdrop = AssetLoader.buildingBackdrop;
         birdAnimation = AssetLoader.birdAnimation;
+        marketBirdAnimation = AssetLoader.marketBirdAnimation;
         cloudImage = AssetLoader.cloud;
         background = AssetLoader.backgroundTexture;
         buildingTexture1 = AssetLoader.building1;
         buildingTexture2= AssetLoader.building2;
         buildingTexture3 = AssetLoader.building3;
         buildingTexture4 = AssetLoader.building4;
-    }
-
-    private void drawGrass(GameLayer layer) {
-
-        // Draw the grass
-        layer.getBatch().draw(grass, frontGrass.getX(), frontGrass.getY(),
-                frontGrass.getWidth(), frontGrass.getHeight());
-        layer.getBatch().draw(grass, backGrass.getX(), backGrass.getY(),
-                backGrass.getWidth(), backGrass.getHeight());
     }
 
     private void drawBackground(GameLayer layer) {
@@ -125,6 +118,11 @@ public class GameRenderer {
 
         cloudLayer.getBatch().draw(cloudImage, cloud.getX(), cloud.getY() + cloud.getHeight(),
                 cloud.getWidth(), cloud.getHeight());
+
+        cloudLayer.getBatch().draw(buildingBackdrop, backdrop1.getX(), backdrop1.getY(),
+                backdrop1.getWidth(), backdrop1.getHeight());
+        cloudLayer.getBatch().draw(buildingBackdrop, backdrop2.getX(), backdrop2.getY(),
+                backdrop2.getWidth(), backdrop2.getHeight());
     }
     
     /**
@@ -168,7 +166,6 @@ public class GameRenderer {
 
         landLayer.start();
         landLayer.blend();
-        drawGrass(landLayer);
         drawBuildings(landLayer, building1, buildingTexture1);
         drawBuildings(landLayer, building2, buildingTexture2);
         drawBuildings(landLayer, building3, buildingTexture3);
@@ -178,8 +175,8 @@ public class GameRenderer {
 
         birdLayer.start();
         birdLayer.blend();
-        drawBird(bird, runTime);
-        drawBird(marketBird, runTime);
+        drawBird(bird, runTime, birdAnimation);
+        drawBird(marketBird, runTime, marketBirdAnimation);
         birdLayer.stop();
 
         hudLayer.start();
@@ -187,7 +184,7 @@ public class GameRenderer {
         hudLayer.stop();
     }
 
-    private void drawBird(Bird b, float runTime) {
+    private void drawBird(Bird b, float runTime, Animation birdAnimation) {
         birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), b.getX(), b.getY(),
                 b.getWidth() / 2.0f, b.getHeight() / 2.0f,
                 b.getWidth(), b.getHeight(), 1, 1, b.getRotation());
@@ -245,6 +242,4 @@ public class GameRenderer {
         AssetLoader.shadow.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length()), 12);
         AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);
     }
-
-
 }

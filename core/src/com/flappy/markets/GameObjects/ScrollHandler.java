@@ -4,35 +4,47 @@ import com.flappy.markets.GameWorld.GameWorld;
 
 public class ScrollHandler {
 	
-	private Grass frontGrass, backGrass;
+	private Backdrop backdrop1, backdrop2;
 	private Building building1, building2, building3, building4, building5;
 	private GameWorld gameWorld;
     private Cloud cloud1, cloud2, cloud3;
+    private Poop poop1, poop2, poop3, poop4, poop5, poop6, poop7, poop8, poop9, poop10;
 	
 	public static final int SCROLL_SPEED = -59;
     public static final int CLOUD_SCROLL_SPEED = -30;
-	public static final int BUILDING_GAP = 15;
+	public static final int BUILDING_GAP = 25;
     public static final int CLOUD_GAP = 30;
 	
 	public ScrollHandler(GameWorld gameWorld, float yPos) {
 		this.gameWorld = gameWorld;
-		frontGrass = new Grass(0, yPos + 10, 170, 5, SCROLL_SPEED);
-		backGrass = new Grass(frontGrass.getTailX(), yPos + 10, 170, 5, SCROLL_SPEED);
+		backdrop1 = new Backdrop(0, yPos - 10, 170, 130, CLOUD_SCROLL_SPEED);
+		backdrop2 = new Backdrop(backdrop1.getTailX(), yPos - 10, 170, 130, CLOUD_SCROLL_SPEED);
 		
-		building1 = new Building(210,0,17,120,SCROLL_SPEED, yPos);
-		building2 = new Building(building1.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
-		building3 = new Building(building2.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
-        building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
-        building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 17, 120, SCROLL_SPEED, yPos);
+		building1 = new Building(210, 0, 22, 120,SCROLL_SPEED, yPos);
+		building2 = new Building(building1.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+		building3 = new Building(building2.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+        building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
+        building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 22, 120, SCROLL_SPEED, yPos);
 
         cloud1 = new Cloud(220, 0, 100, 30, CLOUD_SCROLL_SPEED);
         cloud2 = new Cloud(cloud1.getTailX() + CLOUD_GAP, 10, 60, 20, CLOUD_SCROLL_SPEED);
-        cloud3 = new Cloud(cloud2.getTailX() + CLOUD_GAP, 15, 180, 60, CLOUD_SCROLL_SPEED);
+        cloud3 = new Cloud(cloud2.getTailX() + CLOUD_GAP, 15, 80, 35, CLOUD_SCROLL_SPEED);
+
+//        poop1 = new Poop();
+//        poop2 = new Poop();
+//        poop3 = new Poop();
+//        poop4 = new Poop();
+//        poop5 = new Poop();
+//        poop6 = new Poop();
+//        poop7 = new Poop();
+//        poop8 = new Poop();
+//        poop9 = new Poop();
+//        poop10 = new Poop();
     }
 	
 	public void update(float delta) {
-		frontGrass.update(delta);
-		backGrass.update(delta);
+		backdrop1.update(delta);
+		backdrop2.update(delta);
 		building1.update(delta);
 		building2.update(delta);
 		building3.update(delta);
@@ -62,10 +74,10 @@ public class ScrollHandler {
             cloud3.reset(cloud2.getTailX() + CLOUD_GAP);
         }
 	
-		if (frontGrass.isScrolledLeft()) {
-			frontGrass.reset(backGrass.getTailX());
-		} else if (backGrass.isScrolledLeft()) {
-			backGrass.reset(frontGrass.getTailX());
+		if (backdrop1.isScrolledLeft()) {
+			backdrop1.reset(backdrop2.getTailX());
+		} else if (backdrop2.isScrolledLeft()) {
+			backdrop2.reset(backdrop1.getTailX());
 		}
 
 
@@ -73,8 +85,8 @@ public class ScrollHandler {
 	}
 	
 	public void stop() {
-		frontGrass.stop();
-		backGrass.stop();
+		backdrop1.stop();
+		backdrop2.stop();
 		building1.stop();
 		building2.stop();
 		building3.stop();
@@ -114,8 +126,8 @@ public class ScrollHandler {
 //	}
 	
 	public void onRestart() {
-		frontGrass.onRestart(0, SCROLL_SPEED);
-		backGrass.onRestart(frontGrass.getTailX(), SCROLL_SPEED);
+		backdrop1.onRestart(0, SCROLL_SPEED);
+		backdrop2.onRestart(backdrop1.getTailX(), SCROLL_SPEED);
 		building1.onRestart(210, SCROLL_SPEED);
 		building2.onRestart(building1.getTailX() + BUILDING_GAP, SCROLL_SPEED);
 		building3.onRestart(building2.getTailX() + BUILDING_GAP, SCROLL_SPEED);
@@ -131,12 +143,11 @@ public class ScrollHandler {
 		gameWorld.addScore(increment);
 	}
 	
-	public Grass getFrontGrass() {
-		return frontGrass;
+	public Backdrop getBackdrop1() {
+		return backdrop1;
 	}
-	
-	public Grass getBackGrass() {
-		return backGrass;
+	public Backdrop getBackdrop2() {
+		return backdrop2;
 	}
 	
 	public Building getBuilding1() {
