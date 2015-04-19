@@ -12,6 +12,7 @@ import com.flappy.markets.GameObjects.Grass;
 import com.flappy.markets.GameObjects.ScrollHandler;
 import com.flappy.markets.STHelpers.AssetLoader;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,8 +238,9 @@ public class GameRenderer {
         AssetLoader.font.draw(batch, "Start",   (136 / 2) - (42 - 1), 75);
     }
 
-    private void drawScore(SpriteBatch batch, int score) {
-        String scoreString = myWorld.getScore() + "";
+    private void drawScore(SpriteBatch batch, double score) {
+        final NumberFormat defaultFormat = NumberFormat.getCurrencyInstance();
+        String scoreString = defaultFormat.format(score);
 
         AssetLoader.shadow.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length()), 12);
         AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);

@@ -8,7 +8,7 @@ public class MarketPriceTimeCoordinator implements ValueTimeCoordinator {
     private MarketDataProvider marketDataProvider;
     private long startTime;
 
-    public long getCurrentTime() {
+    private long getCurrentTime() {
         return currentTime;
     }
 

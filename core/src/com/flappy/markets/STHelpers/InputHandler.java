@@ -38,7 +38,7 @@ public class InputHandler implements InputProcessor {
         }
 
         myWorld.touching = true;
-        
+
         myBird.onClick();
 
         if (myWorld.isGameOver() || myWorld.isHighScore()) {
