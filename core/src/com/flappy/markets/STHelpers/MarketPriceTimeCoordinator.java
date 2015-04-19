@@ -33,6 +33,11 @@ public class MarketPriceTimeCoordinator implements ValueTimeCoordinator {
         return marketDataProvider.get((int)(elapsedTime / timePerPrice));
     }
 
+    public double getCurrentSignal() {
+        long elapsedTime = currentTime - startTime;
+        return marketDataProvider.getSignal((int)(elapsedTime / timePerPrice));
+    }
+
     @Override
     public UpcomingValue getUpcomingValue() {
         long elapsedTime = currentTime - startTime;

@@ -57,7 +57,7 @@ public class PortfolioTimeCoordinator implements ValueTimeCoordinator{
     }
 
     @Override
-    public double getCurrentValue() {
+     public double getCurrentValue() {
         return cashHeld + marketPriceTimeCoordinator.getCurrentValue() * sharesHeld;
     }
 
