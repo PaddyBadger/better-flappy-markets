@@ -2,6 +2,7 @@ package com.flappy.markets.STHelpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -35,7 +36,9 @@ public class AssetLoader {
 
     public static TextureRegion smallPoop, bigPoop;
 	
-	public static Sound dead, flap, coin, ending;
+	public static Sound dead, flap, coin;
+
+    public static Music ending;
 	
 	public static BitmapFont font, shadow;
 	
@@ -56,7 +59,7 @@ public class AssetLoader {
 		dead = Gdx.audio.newSound(Gdx.files.internal("data/dead.wav"));
 		flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
 		coin = Gdx.audio.newSound(Gdx.files.internal("data/coin.wav"));
-        ending = Gdx.audio.newSound(Gdx.files.internal("data/GameMusicWithEnding.wav"));
+        ending = Gdx.audio.newMusic(Gdx.files.internal("data/GameMusicWithEnding.wav"));
 		
 		font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
 		font.setScale(.25f, -.25f);

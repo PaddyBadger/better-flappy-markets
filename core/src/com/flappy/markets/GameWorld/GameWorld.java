@@ -97,6 +97,7 @@ public class GameWorld {
                 default:
 
                 if(!this.alreadyPlaying){
+//                    AssetLoader.ending.setLooping(0l,true);
                     AssetLoader.ending.play();
                     this.alreadyPlaying = true;
                 }
