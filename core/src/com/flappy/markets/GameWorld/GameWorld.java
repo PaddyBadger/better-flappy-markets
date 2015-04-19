@@ -11,18 +11,19 @@ public class GameWorld {
 	private int score = 0;
 
 	private GameState currentState;
-	public int midPointY;
+	public int midPointY, midPointX;
 
     public enum GameState {
 			READY, RUNNING, GAMEOVER, HIGHSCORE
 		}
 
 
-	public GameWorld(int midPointY) {
+	public GameWorld(int midPointY, int midPointX) {
 		currentState = GameState.READY;
 		this.midPointY = midPointY;
-		bird = new Bird(33, midPointY - 5, 17, 12);
-        marketBird = new Bird(33, midPointY + 5, 17, 12);
+        this.midPointX = midPointX;
+		bird = new Bird(midPointX, midPointY - 5, 17, 15);
+        marketBird = new Bird(midPointX, midPointY + 5, 17, 15);
 		scroller = new ScrollHandler(this, midPointY + 66);
     }
 

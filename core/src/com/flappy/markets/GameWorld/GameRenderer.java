@@ -39,9 +39,8 @@ public class GameRenderer {
 
     private TextureRegion grass;
     private Animation birdAnimation;
-    private TextureRegion birdMid, birdDown, birdUp;
-    private TextureRegion skullUp, skullDown, bar;
-
+    private TextureRegion bar;
+    private TextureRegion cloudImage;
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
 
@@ -89,12 +88,8 @@ public class GameRenderer {
 
         grass = AssetLoader.grass;
         birdAnimation = AssetLoader.birdAnimation;
-        birdMid = AssetLoader.bird;
-        birdDown = AssetLoader.birdDown;
-        birdUp = AssetLoader.birdUp;
-        skullUp = AssetLoader.skullUp;
-        skullDown = AssetLoader.skullDown;
         bar = AssetLoader.bar;
+        cloudImage = AssetLoader.cloud;
     }
 
     private void drawGrass(GameLayer layer) {
@@ -112,12 +107,31 @@ public class GameRenderer {
                 building.getWidth(), midPointY + 66 - (building.getHeight()));
     }
 
+    private void drawCloudLayer(GameLayer cloudLayer, Cloud cloud) {
+
+        cloudLayer.getBatch().draw(cloudImage, cloud.getX(), cloud.getY() + cloud.getHeight(),
+                cloud.getWidth(), cloud.getHeight());
+    }
+
     public void render(float runTime) {
 
         resizeToBird(birdLayer, bird, runTime);
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(202 / 255f, 227 / 255f, 246 / 255f, 1);
+        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+        Gdx.gl.glDisable(GL20.GL_CULL_FACE);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glEnable(GL20.GL_TEXTURE_2D);
+        Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
+
+        cloudLayer.start();
+        cloudLayer.blend();
+
+        drawCloudLayer(cloudLayer, cloud1);
+        drawCloudLayer(cloudLayer, cloud2);
+        drawCloudLayer(cloudLayer, cloud3);
+        cloudLayer.stop();
 
         birdLayer.start();
 
@@ -133,25 +147,21 @@ public class GameRenderer {
         System.out.println("birdLayer:" + birdLayer.toString());
         System.out.println("hudLayer:" + hudLayer.toString());
 
-        if (bird.shouldntFlap()) {
-            birdLayer.getBatch().draw(birdMid, bird.getX(), bird.getY(),
-                    bird.getWidth() / 2.0f, bird.getHeight() / 2.0f,
-                    bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
-        } else {
-            birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(),
-                    bird.getWidth() / 2.0f, bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(),
-                    1, 1, bird.getRotation());
-        }
 
-        birdLayer.getBatch().draw(birdMid, marketBird.getX(), marketBird.getY(),
-                marketBird.getWidth() / 2.0f, marketBird.getHeight() / 2.0f,
-                marketBird.getWidth(), marketBird.getHeight(), 1, 1, marketBird.getRotation());
+        drawBird(bird, runTime);
+        drawBird(marketBird, runTime);
 
         birdLayer.stop();
 
         hudLayer.start();
         drawHud();
         hudLayer.stop();
+    }
+
+    private void drawBird(Bird bird, float runTime) {
+        birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(),
+                bird.getWidth() / 2.0f, bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(),
+                1, 1, bird.getRotation());
     }
 
     private void drawHud() {
@@ -195,15 +205,17 @@ public class GameRenderer {
     }
 
     private void drawStart(SpriteBatch batch) {
+
         AssetLoader.shadow.draw(batch, "Start", (136 / 2) - (42 - 1), 75);
-        AssetLoader.font.draw(batch, "Start",   (136 / 2) - (42 - 1), 75);
+        AssetLoader.font.draw(batch, "Start", (136 / 2) - (42 - 1), 75);
     }
 
     private void drawScore(SpriteBatch batch, int score) {
+
         String scoreString = myWorld.getScore() + "";
 
         AssetLoader.shadow.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length()), 12);
-        AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);
+        AssetLoader.font.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length() - 1), 11);
     }
 
     private void resizeToBird(GameLayer layer, Bird bird, float timestamp) {

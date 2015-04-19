@@ -17,7 +17,11 @@ public class AssetLoader {
 	public static Animation birdAnimation;
 	public static TextureRegion bird, birdDown, birdUp;
 	
-	public static TextureRegion skullUp, skullDown, bar;
+	public static TextureRegion bar;
+
+    public static TextureRegion cloud;
+
+    public static TextureRegion smallPoop, bigPoop;
 	
 	public static Sound dead, flap, coin;
 	
@@ -32,29 +36,29 @@ public class AssetLoader {
 			prefs.putInteger("highScore", 0);
 		}
 		
-		texture = new Texture(Gdx.files.internal("data/st.png"));
+		texture = new Texture(Gdx.files.internal("data/flappymarkets.png"));
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		
 		grass = new TextureRegion(texture, 0, 33, 170, 5);
 		grass.flip(false,  true);
 		
-		birdDown = new TextureRegion(texture, 0, 0, 54, 29);
+		birdDown = new TextureRegion(texture, 0, 100, 245, 200);
 		birdDown.flip(false,  true);
 		
-		bird = new TextureRegion(texture, 0, 1, 54, 29);
+		bird = new TextureRegion(texture, 300, 100, 245, 200);
 		bird.flip(false,  true);
 		
-		birdUp = new TextureRegion(texture, 0, 0, 54, 29);
+		birdUp = new TextureRegion(texture, 600, 100, 245, 200);
 		birdUp.flip(false,  true);
 		
 		TextureRegion[] birds = { birdDown, bird, birdUp };
 		birdAnimation = new Animation(0.06f, birds);
 		birdAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-		
-		skullUp = new TextureRegion(texture, 152, 0, 22, 12);
-		skullDown = new TextureRegion(skullUp);
-		skullDown.flip(false,  true);
-		
+
+        cloud = new TextureRegion(texture, 0, 300, 600, 300);
+        cloud.flip(false, true);
+
+
 		bar = new TextureRegion(texture, 152, 0, 22, 30);
 		bar.flip(false,  true);
 		
