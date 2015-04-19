@@ -20,10 +20,12 @@ public class PortfolioTimeCoordinator implements ValueTimeCoordinator{
         this.timePerPrice = timePerPrice;
         this.timePerBuySellCheck = timePerBuySellCheck;
 
-        this.marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(startTime, timePerPrice, totalPrices);
-
         this.sharesHeld = 0;
         this.cashHeld = startingCash;
+    }
+
+    public void setMarketPriceTimeCoordinator(MarketPriceTimeCoordinator marketPriceTimeCoordinator) {
+        this.marketPriceTimeCoordinator = marketPriceTimeCoordinator;
     }
 
     public void buyShares() {

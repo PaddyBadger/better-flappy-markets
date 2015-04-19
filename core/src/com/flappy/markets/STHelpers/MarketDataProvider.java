@@ -259,6 +259,7 @@ public class MarketDataProvider {
     }
 
     public double get(int index) {
-        return prices[index];
+        if (index < prices.length) return prices[index];
+        else return prices[prices.length - 1];
     }
 }

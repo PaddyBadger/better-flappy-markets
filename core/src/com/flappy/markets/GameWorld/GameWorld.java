@@ -53,6 +53,7 @@ public class GameWorld {
 
         marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
         portfolioTimeCoordinator =  new PortfolioTimeCoordinator(15.92, 0, 500, 500, 241);
+        portfolioTimeCoordinator.setMarketPriceTimeCoordinator(marketPriceTimeCoordinator);
 
         bird = new Bird(-7.5f, midPointY - 5, 17, 12, marketPriceTimeCoordinator);
         marketBird = new Bird(-7.5f, midPointY + 5, 17, 12, portfolioTimeCoordinator);
@@ -74,6 +75,8 @@ public class GameWorld {
 	}
 
 	public void update(float delta) {
+
+        //TOOD: END THE GAME AT SOME POINT
 		switch (currentState) {
 		case READY:
 			updateReady(delta);
