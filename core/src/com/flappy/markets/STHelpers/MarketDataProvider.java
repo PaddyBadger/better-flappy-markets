@@ -11,15 +11,14 @@ import java.util.Scanner;
  */
 public class MarketDataProvider {
 
-    private static final String DATA_FILE_PATH = "historical_five_day_prices";
-    float[] prices;
+    private static final String DATA_FILE_PATH = "/historical_five_day_prices";
+    double[] prices;
 
     public MarketDataProvider(int dataCount) {
-        this.prices = new float[dataCount];
+        this.prices = new double[dataCount];
 
         //Get file from resources folder
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(DATA_FILE_PATH).getFile());
+        File file = new File(getClass().getResource(DATA_FILE_PATH).getFile());
 
         int totalDataPoints = 0, initialReadIndex = 0;
 
@@ -48,7 +47,7 @@ public class MarketDataProvider {
             int i = 0, len = prices.length;
             while (scanner.hasNextLine() && i < len) {
                 String line = scanner.nextLine();
-                prices[i++] = Float.parseFloat(line);
+                prices[i++] = Double.parseDouble(line);
             }
 
             scanner.close();
@@ -58,7 +57,7 @@ public class MarketDataProvider {
         }
     }
 
-    public float get(int index) {
+    public double get(int index) {
         return prices[index];
     }
 }

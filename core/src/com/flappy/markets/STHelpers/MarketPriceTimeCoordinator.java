@@ -5,21 +5,26 @@ package com.flappy.markets.STHelpers;
  */
 public class MarketPriceTimeCoordinator {
 
-    MarketDataProvider marketDataProvider;
-    long epochStartTime;
-    long millisecondsPerPrice;
-    int totalPrices;
+    private MarketDataProvider marketDataProvider;
+    private long startTime;
+    private long timePerPrice;
+    private int totalPrices;
 
-    public MarketPriceTimeCoordinator(long epochStartTime, long millisecondsPerPrice, int totalPrices) {
+    public MarketPriceTimeCoordinator(long startTime, long timePerPrice, int totalPrices) {
         marketDataProvider = new MarketDataProvider(totalPrices);
-        this.epochStartTime = epochStartTime;
-        this.millisecondsPerPrice = millisecondsPerPrice;
+        this.startTime = startTime;
+        this.timePerPrice = timePerPrice;
         this.totalPrices = totalPrices;
     }
 
-    public UpcomingPrice getUpcomingPrice(long epochTime) {
-        long elapsedTime = epochTime - epochStartTime;
+    public UpcomingPrice getUpcomingPrice(long currentTime) {
+        long elapsedTime = currentTime - startTime;
 
-        return new UpcomingPrice(elapsedTime % millisecondsPerPrice, marketDataProvider.get((int)(elapsedTime / millisecondsPerPrice) + 1));
+        return new UpcomingPrice(elapsedTime % timePerPrice, marketDataProvider.get((int)(elapsedTime / timePerPrice) + 1));
+    }
+
+    public double getPrice(long currentTime) {
+        long elapsedTime = currentTime - startTime;
+        return marketDataProvider.get((int)(elapsedTime / timePerPrice));
     }
 }

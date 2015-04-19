@@ -4,16 +4,16 @@ package com.flappy.markets.STHelpers;
  * Created by zanema on 4/18/15.
  */
 public class UpcomingPrice {
-    private long millisecondsRemaining;
+    private long timeRemaining;
     private double price;
 
-    public UpcomingPrice(long millisecondsRemaining, double price) {
-        this.millisecondsRemaining = millisecondsRemaining;
+    public UpcomingPrice(long timeRemaining, double price) {
+        this.timeRemaining = timeRemaining;
         this.price = price;
     }
 
-    public long getMillisecondsRemaining() {
-        return millisecondsRemaining;
+    public long getTimeRemaining() {
+        return timeRemaining;
     }
 
     public double getPrice() {

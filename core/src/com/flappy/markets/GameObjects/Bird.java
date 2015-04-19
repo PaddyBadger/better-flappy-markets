@@ -3,6 +3,7 @@ package com.flappy.markets.GameObjects;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.flappy.markets.STHelpers.AssetLoader;
+import com.flappy.markets.STHelpers.MarketDataProvider;
 
 public class Bird {
 
@@ -11,7 +12,7 @@ public class Bird {
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
-
+    private MarketDataProvider marketDataProvider;
     private float rotation;
     private int width;
     private int height;
@@ -46,6 +47,7 @@ public class Bird {
             lastUpdate = l;
             bouncyUpdate(delta);
         }
+        marketDataProvider = new MarketDataProvider(241);
     }
 
     public void bouncyUpdate(float delta) {
@@ -88,6 +90,8 @@ public class Bird {
                 rotation = 90;
             }
         }
+
+        position.y = (float) marketDataProvider.get((int) Math.ceil(delta / 0.5));
     }
 
     public boolean isFalling() {
@@ -116,6 +120,7 @@ public class Bird {
     }
 
     public float getY() {
+
         return position.y;
     }
 
