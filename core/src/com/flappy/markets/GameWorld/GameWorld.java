@@ -1,12 +1,12 @@
 package com.flappy.markets.GameWorld;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.flappy.markets.GameObjects.Bird;
-import com.flappy.markets.GameObjects.ScrollHandler;
-
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.flappy.markets.GameObjects.Bird;
+import com.flappy.markets.GameObjects.ScrollHandler;
 
 public class GameWorld {
     private final ArrayList<BirdData> marketBirdData;

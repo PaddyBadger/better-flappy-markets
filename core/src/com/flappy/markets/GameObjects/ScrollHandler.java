@@ -25,9 +25,9 @@ public class ScrollHandler {
         building4 = new Building(building3.getTailX() + BUILDING_GAP, 0, 22, 80, SCROLL_SPEED, yPos);
         building5 = new Building(building4.getTailX() + BUILDING_GAP, 0, 22, 50, SCROLL_SPEED, yPos);
 
-        cloud1 = new Cloud(220, 0, 100, 50, CLOUD_SCROLL_SPEED);
-        cloud2 = new Cloud(cloud1.getTailX() + CLOUD_GAP, 0, 100, 50, CLOUD_SCROLL_SPEED);
-        cloud3 = new Cloud(cloud2.getTailX() + CLOUD_GAP, 0, 100, 50, CLOUD_SCROLL_SPEED);
+        cloud1 = new Cloud(220, 0, 100, 30, CLOUD_SCROLL_SPEED);
+        cloud2 = new Cloud(cloud1.getTailX() + CLOUD_GAP, 50, 60, 20, CLOUD_SCROLL_SPEED);
+        cloud3 = new Cloud(cloud2.getTailX() + CLOUD_GAP, 30, 180, 60, CLOUD_SCROLL_SPEED);
     }
 	
 	public void update(float delta) {

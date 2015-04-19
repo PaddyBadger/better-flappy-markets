@@ -19,7 +19,6 @@ public class GameRenderer {
 
     public static final int VIEWPORT_WIDTH = 136;
     private final float viewportRatio;
-
     private GameWorld myWorld;
 
     private List<GameLayer> layers = new ArrayList<GameLayer>();
@@ -41,8 +40,8 @@ public class GameRenderer {
 
     private TextureRegion grass;
     private Animation birdAnimation;
-    private TextureRegion birdMid, birdDown, birdUp;
-    private TextureRegion skullUp, skullDown, bar;
+    private TextureRegion bar;
+    private TextureRegion cloudImage;
 
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
@@ -88,12 +87,8 @@ public class GameRenderer {
 
         grass = AssetLoader.grass;
         birdAnimation = AssetLoader.birdAnimation;
-        birdMid = AssetLoader.bird;
-        birdDown = AssetLoader.birdDown;
-        birdUp = AssetLoader.birdUp;
-        skullUp = AssetLoader.skullUp;
-        skullDown = AssetLoader.skullDown;
         bar = AssetLoader.bar;
+        cloudImage = AssetLoader.cloud;
     }
 
     private void drawGrass(GameLayer layer) {
@@ -111,11 +106,29 @@ public class GameRenderer {
                 building.getWidth(), midPointY + 66 - (building.getHeight()));
     }
 
+   
+    private void drawCloudLayer(GameLayer cloudLayer, Cloud cloud) {
+
+        cloudLayer.getBatch().draw(cloudImage, cloud.getX(), cloud.getY() + cloud.getHeight(),
+                cloud.getWidth(), cloud.getHeight());
+    }
+    
     /**
      * @param runTime used to keyframe into sprites to allow them to change visible states
      */
     public void render(float runTime) {
 
+        // magic.
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(202 / 255f, 227 / 255f, 246 / 255f, 1);
+        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+        Gdx.gl.glDisable(GL20.GL_CULL_FACE);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glEnable(GL20.GL_TEXTURE_2D);
+        Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
+        
         final CameraMan cameraMan = myWorld.getCameraMan();
         cameraMan.update(runTime);
 
@@ -127,12 +140,16 @@ public class GameRenderer {
 
         // System.out.println(String.format("width:%s, height:%s", width, height));
 
+        cloudLayer.start();
+        cloudLayer.blend();
+
+        drawCloudLayer(cloudLayer, cloud1);
+        drawCloudLayer(cloudLayer, cloud2);
+        drawCloudLayer(cloudLayer, cloud3);
+        cloudLayer.stop();
+        
         birdLayer.orient(width, height, bottom);
-
-        // magic.
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        
         landLayer.start();
         drawGrass(landLayer);
         drawBuildings(landLayer, building1);
