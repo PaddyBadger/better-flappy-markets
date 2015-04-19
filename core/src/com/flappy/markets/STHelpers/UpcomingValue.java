@@ -3,11 +3,11 @@ package com.flappy.markets.STHelpers;
 /**
  * Created by zanema on 4/18/15.
  */
-public class UpcomingPrice {
+public class UpcomingValue {
     private long timeRemaining;
     private double price;
 
-    public UpcomingPrice(long timeRemaining, double price) {
+    public UpcomingValue(long timeRemaining, double price) {
         this.timeRemaining = timeRemaining;
         this.price = price;
     }

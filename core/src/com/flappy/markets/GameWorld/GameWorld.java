@@ -7,6 +7,8 @@ import java.util.Random;
 
 import com.flappy.markets.GameObjects.Bird;
 import com.flappy.markets.GameObjects.ScrollHandler;
+import com.flappy.markets.STHelpers.MarketPriceTimeCoordinator;
+import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
 
 public class GameWorld {
     private final ArrayList<BirdData> marketBirdData;
@@ -37,6 +39,9 @@ public class GameWorld {
 	private GameState currentState;
 	public int midPointY;
 
+    PortfolioTimeCoordinator portfolioTimeCoordinator;
+    MarketPriceTimeCoordinator marketPriceTimeCoordinator;
+
     public enum GameState {
 			READY, RUNNING, GAMEOVER, HIGHSCORE
 		}
@@ -45,9 +50,13 @@ public class GameWorld {
 	public GameWorld(int midPointY) {
 		currentState = GameState.READY;
 		this.midPointY = midPointY;
-		bird = new Bird(-7.5f, midPointY - 5, 17, 12);
-        marketBird = new Bird(-7.5f, midPointY + 5, 17, 12);
-		scroller = new ScrollHandler(this, midPointY + 66);
+
+        marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
+        portfolioTimeCoordinator =  new PortfolioTimeCoordinator(15.92, 0, 500, 500, 241);
+
+        bird = new Bird(-7.5f, midPointY - 5, 17, 12, marketPriceTimeCoordinator);
+        marketBird = new Bird(-7.5f, midPointY + 5, 17, 12, portfolioTimeCoordinator);
+        scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
         k = 0;
@@ -82,8 +91,10 @@ public class GameWorld {
 	}
 
 	public void updateRunning(float delta) {
+        marketPriceTimeCoordinator.incrementTime((long) (delta * 1000));
+        portfolioTimeCoordinator.incrementTime((long) (delta * 1000), touching);
 
-		bird.bouncyUpdate(delta);
+        bird.bouncyUpdate(delta);
         marketBird.slowUpdate(delta);
 		scroller.update(delta);
 	}

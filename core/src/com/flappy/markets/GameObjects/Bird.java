@@ -6,6 +6,7 @@ import com.flappy.markets.STHelpers.AssetLoader;
 import com.flappy.markets.STHelpers.MarketDataProvider;
 import com.flappy.markets.STHelpers.MarketPriceTimeCoordinator;
 import com.flappy.markets.STHelpers.PortfolioTimeCoordinator;
+import com.flappy.markets.STHelpers.ValueTimeCoordinator;
 
 public class Bird {
 
@@ -15,8 +16,9 @@ public class Bird {
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
-    private MarketPriceTimeCoordinator marketPriceTimeCoordinator;
-    private PortfolioTimeCoordinator portfolioTimeCoordinator;
+
+    private ValueTimeCoordinator valueTimeCoordinator;
+
     private float rotation;
     private int width;
     private int height;
@@ -25,7 +27,7 @@ public class Bird {
 
     private boolean isAlive;
 
-    public Bird(float x, float y, int width, int height) {
+    public Bird(float x, float y, int width, int height, ValueTimeCoordinator valueTimeCoordinator) {
 
         this.width = width;
         this.height = height;
@@ -38,8 +40,7 @@ public class Bird {
 
         isAlive = true;
 
-        marketPriceTimeCoordinator = new MarketPriceTimeCoordinator(0, 500, 241);
-        portfolioTimeCoordinator = new PortfolioTimeCoordinator(15.92, 0, 500, 500, 241);
+        this.valueTimeCoordinator = valueTimeCoordinator;
     }
 
     public void repositionX(float x){
@@ -89,16 +90,7 @@ public class Bird {
             }
         }
 
-        // marketBird vs regular bird hack
-        if (lastUpdate > 0) {
-            marketPriceTimeCoordinator.incrementTime((long) (delta * 1000));
-            position.y = (float) marketPriceTimeCoordinator.getCurrentPrice() * -60 + 1000;
-        } else {
-            // change between buy and sell every 5 seconds
-            portfolioTimeCoordinator.incrementTime((long) (delta * 1000), (System.currentTimeMillis()/1000) % 10 > 5);
-            position.y = (float) portfolioTimeCoordinator.getCurrentPortfolioValue() * -60 + 1000;
-        }
-
+        position.y = (float) valueTimeCoordinator.getCurrentValue() * -60 + 1000;
     }
 
     public boolean isFalling() {

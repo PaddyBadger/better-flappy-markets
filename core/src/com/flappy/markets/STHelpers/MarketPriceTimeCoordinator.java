@@ -3,7 +3,7 @@ package com.flappy.markets.STHelpers;
 /**
  * Created by zanema on 4/18/15.
  */
-public class MarketPriceTimeCoordinator {
+public class MarketPriceTimeCoordinator implements ValueTimeCoordinator {
 
     private MarketDataProvider marketDataProvider;
     private long startTime;
@@ -27,14 +27,15 @@ public class MarketPriceTimeCoordinator {
         this.currentTime += delta;
     }
 
-    public UpcomingPrice getUpcomingPrice() {
-        long elapsedTime = currentTime - startTime;
-
-        return new UpcomingPrice(timePerPrice - (elapsedTime % timePerPrice), marketDataProvider.get((int)(elapsedTime / timePerPrice) + 1));
-    }
-
-    public double getCurrentPrice() {
+    @Override
+    public double getCurrentValue() {
         long elapsedTime = currentTime - startTime;
         return marketDataProvider.get((int)(elapsedTime / timePerPrice));
+    }
+
+    @Override
+    public UpcomingValue getUpcomingValue() {
+        long elapsedTime = currentTime - startTime;
+        return new UpcomingValue(timePerPrice - (elapsedTime % timePerPrice), marketDataProvider.get((int)(elapsedTime / timePerPrice) + 1));
     }
 }

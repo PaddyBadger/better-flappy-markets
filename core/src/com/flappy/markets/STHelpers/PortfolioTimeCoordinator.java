@@ -3,7 +3,7 @@ package com.flappy.markets.STHelpers;
 /**
 * Created by zanema on 4/18/15.
 */
-public class PortfolioTimeCoordinator {
+public class PortfolioTimeCoordinator implements ValueTimeCoordinator{
     private long startTime;
     private long currentTime;
     private long timePerPrice;
@@ -28,7 +28,7 @@ public class PortfolioTimeCoordinator {
 
     public void buyShares() {
         if (cashHeld > 0) {
-            purchasePrice = marketPriceTimeCoordinator.getCurrentPrice();
+            purchasePrice = marketPriceTimeCoordinator.getCurrentValue();
             sharesHeld = cashHeld / purchasePrice;
             cashHeld = 0;
         }
@@ -36,7 +36,7 @@ public class PortfolioTimeCoordinator {
 
     public void sellShares() {
         if (sharesHeld > 0) {
-            cashHeld = marketPriceTimeCoordinator.getCurrentPrice() * sharesHeld;
+            cashHeld = marketPriceTimeCoordinator.getCurrentValue() * sharesHeld;
             purchasePrice = 0;
             sharesHeld = 0;
         }
@@ -54,14 +54,16 @@ public class PortfolioTimeCoordinator {
         }
     }
 
-    public double getCurrentPortfolioValue() {
-        return cashHeld + marketPriceTimeCoordinator.getCurrentPrice() * sharesHeld;
+    @Override
+    public double getCurrentValue() {
+        return cashHeld + marketPriceTimeCoordinator.getCurrentValue() * sharesHeld;
     }
 
-    public UpcomingPrice getUpcomingPortfolioValue(long currentTime) {
-        UpcomingPrice upcomingMarketPrice = marketPriceTimeCoordinator.getUpcomingPrice();
+    @Override
+    public UpcomingValue getUpcomingValue() {
+        UpcomingValue upcomingMarketPrice = marketPriceTimeCoordinator.getUpcomingValue();
 
-        return new UpcomingPrice(upcomingMarketPrice.getTimeRemaining(),
+        return new UpcomingValue(upcomingMarketPrice.getTimeRemaining(),
                 cashHeld + (upcomingMarketPrice.getPrice() * sharesHeld));
     }
 
@@ -75,4 +77,6 @@ public class PortfolioTimeCoordinator {
     private boolean hasShares() {
         return sharesHeld > 0;
     }
+
+
 }
