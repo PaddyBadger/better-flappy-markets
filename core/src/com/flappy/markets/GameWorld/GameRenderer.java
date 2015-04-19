@@ -224,9 +224,11 @@ public class GameRenderer {
                 AssetLoader.font.draw(hudBatch, "Try Again?", 24, 75);
 
                 drawScore(hudBatch, myWorld.getScore());
+                drawSignal(hudBatch, myWorld.getSignal());
             }
 
             drawScore(hudBatch, myWorld.getScore());
+            drawSignal(hudBatch, myWorld.getSignal());
         }
     }
 
@@ -241,5 +243,18 @@ public class GameRenderer {
 
         AssetLoader.shadow.draw(batch, scoreString, (136 / 2) - (3 * scoreString.length()), 12);
         AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);
+    }
+
+    private void drawSignal(SpriteBatch batch, double score) {
+
+        String scoreString = "HOLD";
+        if (score > 0) {
+            scoreString = "BUY";
+        } else if (score < 0) {
+            scoreString = "SELL";
+        }
+
+        AssetLoader.shadow.draw(batch, scoreString, 50, 200);
+        AssetLoader.font.draw(batch, scoreString, 50, 200);
     }
 }

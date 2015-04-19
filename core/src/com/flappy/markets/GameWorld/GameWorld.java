@@ -35,6 +35,7 @@ public class GameWorld {
     private Rectangle ground;
 
 	private double score = 0.0;
+    private double signal = 0.0;
 
 	private GameState currentState;
 	public int midPointY;
@@ -102,6 +103,7 @@ public class GameWorld {
 		scroller.update(delta);
 
         this.score = portfolioTimeCoordinator.getCurrentValue() - marketPriceTimeCoordinator.getCurrentValue();
+        this.signal = marketPriceTimeCoordinator.getCurrentSignal();
 	}
 
 	public Bird getBird() {
@@ -123,6 +125,10 @@ public class GameWorld {
 	public double getScore() {
 		return score;
 	}
+
+    public double getSignal() {
+        return signal;
+    }
 
 	public void addScore(int increment) {
 		score += increment;
