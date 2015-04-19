@@ -27,6 +27,7 @@ public class GameRenderer {
     private GameLayer hudLayer;
     private GameLayer birdLayer;
     private GameLayer cloudLayer;
+    private GameLayer landLayer;
 
     private int midPointY;
     private int gameHeight;
@@ -56,6 +57,7 @@ public class GameRenderer {
         this.hudLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
         this.birdLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
         this.cloudLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
+        this.landLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
 
         layers.add(hudLayer);
         layers.add(birdLayer);
@@ -123,7 +125,7 @@ public class GameRenderer {
         float height = top - bottom;
         float width = height * this.viewportRatio;
 
-        System.out.println(String.format("width:%s, height:%s", width, height));
+        // System.out.println(String.format("width:%s, height:%s", width, height));
 
         birdLayer.orient(width, height, bottom);
 
@@ -131,18 +133,14 @@ public class GameRenderer {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        drawGrass(birdLayer);
-//        drawBuildings(birdLayer, building1);
-//        drawBuildings(birdLayer, building2);
-//        drawBuildings(birdLayer, building3);
-//        drawBuildings(birdLayer, building4);
-//        drawBuildings(birdLayer, building5);
-
-
-
-// System.out.println("birdLayer:" + birdLayer.toString());
-// System.out.println("hudLayer:" + hudLayer.toString());
-
+        landLayer.start();
+        drawGrass(landLayer);
+        drawBuildings(landLayer, building1);
+        drawBuildings(landLayer, building2);
+        drawBuildings(landLayer, building3);
+        drawBuildings(landLayer, building4);
+        drawBuildings(landLayer, building5);
+        landLayer.stop();
 
         birdLayer.start();
         birdLayer.blend();

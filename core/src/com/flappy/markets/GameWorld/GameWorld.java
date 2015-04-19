@@ -84,9 +84,8 @@ public class GameWorld {
 	public void updateRunning(float delta) {
 
 		bird.bouncyUpdate(delta);
-
         marketBird.slowUpdate(delta);
-		// scroller.update(delta);
+		scroller.update(delta);
 	}
 
 	public Bird getBird() {
