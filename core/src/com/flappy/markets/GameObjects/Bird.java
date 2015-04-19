@@ -6,6 +6,8 @@ import com.flappy.markets.STHelpers.AssetLoader;
 
 public class Bird {
 
+    private long lastUpdate = 0;
+
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
@@ -19,32 +21,58 @@ public class Bird {
     private boolean isAlive;
 
     public Bird(float x, float y, int width, int height) {
+
         this.width = width;
         this.height = height;
+
         position = new Vector2(x, y);
         velocity = new Vector2(0, 0);
+
         acceleration = new Vector2(0, 460);
         boundingCircle = new Circle();
 
         isAlive = true;
+
     }
 
-    public void update(float delta, int x, int y) {
+    public void repositionX(float x){
+        position.x = x;
+    }
+
+    public void slowUpdate(float delta) {
+        long l = System.currentTimeMillis();
+        long elapsed = l - lastUpdate;
+        if(elapsed > 500) {
+            lastUpdate = l;
+            bouncyUpdate(delta);
+        }
+    }
+
+    public void bouncyUpdate(float delta) {
+
+
         velocity.add(acceleration.cpy().scl(delta));
 
+        // can't go faster than 200
         if (velocity.y > 200) {
             velocity.y = 200;
         }
 
+        // can't go higher than ceiling
         if (position.y < -13) {
             position.y = -13;
             velocity.y = 0;
         }
 
+        // move
         position.add(velocity.cpy().scl(delta));
 
+        // collision -- TODO DELETE ME
         boundingCircle.set(position.x + 9, position.y + 6, 6.5f);
 
+
+        // multi-porpoise
+        // if moving vertically up, rotate counter clockwise until arc'd
         if (velocity.y < 0) {
             rotation -= 600 * delta;
 
@@ -53,6 +81,7 @@ public class Bird {
             }
         }
 
+        // if moving down fast or dead then rotate clockwise until vertical
         if (isFalling() || !isAlive) {
             rotation += 480 * delta;
             if (rotation > 90) {
@@ -63,10 +92,6 @@ public class Bird {
 
     public boolean isFalling() {
         return velocity.y > 110;
-    }
-
-    public boolean shouldntFlap() {
-        return velocity.y > 70 || !isAlive;
     }
 
     public void onClick() {
@@ -121,6 +146,11 @@ public class Bird {
 
     public void decelerate() {
         acceleration.y = 0;
+    }
+
+
+    public String toString(){
+        return String.format("x:%s, y:%s", position.x, position.y);
     }
 
 }

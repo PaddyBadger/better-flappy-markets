@@ -23,17 +23,28 @@ public class GameLayer {
         return batch;
     }
 
-    public GameLayer() {
+    public GameLayer(float width, float height) {
         this.camera = new OrthographicCamera();
+
         this.batch = new SpriteBatch();
         this.batch.disableBlending();
+
+        this.camera.setToOrtho(true, width, height);
+        this.camera.update();
+        this.batch.setProjectionMatrix(camera.combined);
     }
 
-    public void orient(float width, float height){
+    public void orient(float width, float height, float bottom){
         this.width = width;
         this.height = height;
 
-        camera.setToOrtho(true, width, height);
+        float deltaY = camera.viewportHeight - height;
+        float deltaX = camera.viewportWidth - width;
+
+        camera.setToOrtho(true, width*2, height*2);
+        camera.position.set(camera.position.x, camera.position.y + bottom, 0);
+        camera.update();
+
         batch.setProjectionMatrix(camera.combined);
     }
 

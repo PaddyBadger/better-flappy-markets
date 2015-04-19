@@ -11,9 +11,14 @@ import java.util.Random;
 public class GameWorld {
     private final ArrayList<BirdData> marketBirdData;
 
-    private final int k;
+    private int k;
+
+    private long lastUpdate;
 
     private ScrollHandler scroller;
+
+    private CameraMan cameraMan;
+
 	private Bird bird;
     private Bird marketBird;
 
@@ -40,8 +45,8 @@ public class GameWorld {
 	public GameWorld(int midPointY) {
 		currentState = GameState.READY;
 		this.midPointY = midPointY;
-		bird = new Bird(33, midPointY - 5, 17, 12);
-        marketBird = new Bird(33, midPointY + 5, 17, 12);
+		bird = new Bird(6, midPointY - 5, 17, 12);
+        marketBird = new Bird(6, midPointY + 5, 17, 12);
 		scroller = new ScrollHandler(this, midPointY + 66);
 
         int i = 2000;
@@ -54,6 +59,9 @@ public class GameWorld {
 
         this.birds.add(marketBird);
         this.birds.add(bird);
+
+        // cameraman needs birds
+        this.cameraMan = new CameraMan(this);
 	}
 
 	public void update(float delta) {
@@ -75,15 +83,10 @@ public class GameWorld {
 
 	public void updateRunning(float delta) {
 
-		if (delta > .05f) {
-			delta = .05f;
-		}
+		bird.bouncyUpdate(delta);
 
-		bird.update(delta, 50, midPointY);
-
-        marketBird.update(delta, (int) marketBirdData.get(k).x, (int) marketBirdData.get(k).y);
-
-		scroller.update(delta);
+        marketBird.slowUpdate(delta);
+		// scroller.update(delta);
 	}
 
 	public Bird getBird() {
@@ -97,6 +100,10 @@ public class GameWorld {
 	public ScrollHandler getScroller() {
 		return scroller;
 	}
+
+    public CameraMan getCameraMan() {
+        return cameraMan;
+    }
 
 	public int getScore() {
 		return score;
@@ -136,7 +143,8 @@ public class GameWorld {
     }
 
     public float maxBirdAltitude(){
-        float max = -1f;
+        float max = birds.get(0).getY();
+
         for(Bird b : birds){
             if(b.getY() > max){
                 max = b.getY();
@@ -146,7 +154,8 @@ public class GameWorld {
     }
 
     public float minBirdAltitude(){
-        float min = Float.MAX_VALUE;
+        float min = birds.get(0).getY();
+
         for(Bird b : birds){
             if(b.getY() < min){
                 min = b.getY();

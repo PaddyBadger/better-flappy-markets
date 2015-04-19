@@ -21,7 +21,6 @@ public class GameRenderer {
     private final float viewportRatio;
 
     private GameWorld myWorld;
-    private CameraMan cameraMan;
 
     private List<GameLayer> layers = new ArrayList<GameLayer>();
 
@@ -48,20 +47,15 @@ public class GameRenderer {
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
 
         this.myWorld = world;
-        this.cameraMan = new CameraMan(world);
 
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
 
-        this.viewportRatio = VIEWPORT_WIDTH / gameHeight;
+        this.viewportRatio = VIEWPORT_WIDTH / (float) gameHeight;
 
-        this.hudLayer = new GameLayer();
-        this.birdLayer = new GameLayer();
-        this.cloudLayer = new GameLayer();
-
-        this.birdLayer.orient(VIEWPORT_WIDTH, gameHeight);
-        this.hudLayer.orient(VIEWPORT_WIDTH, gameHeight);
-        this.cloudLayer.orient(VIEWPORT_WIDTH, gameHeight);
+        this.hudLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
+        this.birdLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
+        this.cloudLayer = new GameLayer(VIEWPORT_WIDTH, gameHeight);
 
         layers.add(hudLayer);
         layers.add(birdLayer);
@@ -115,48 +109,56 @@ public class GameRenderer {
                 building.getWidth(), midPointY + 66 - (building.getHeight()));
     }
 
+    /**
+     * @param runTime used to keyframe into sprites to allow them to change visible states
+     */
     public void render(float runTime) {
 
-        resizeToBird(birdLayer, bird, runTime);
+        final CameraMan cameraMan = myWorld.getCameraMan();
+        cameraMan.update(runTime);
 
-        this.cameraMan.step(runTime);
+        float bottom = cameraMan.getBottom();
+        float top = cameraMan.getTop();
 
+        float height = top - bottom;
+        float width = height * this.viewportRatio;
+
+        System.out.println(String.format("width:%s, height:%s", width, height));
+
+        birdLayer.orient(width, height, bottom);
+
+        // magic.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+//        drawGrass(birdLayer);
+//        drawBuildings(birdLayer, building1);
+//        drawBuildings(birdLayer, building2);
+//        drawBuildings(birdLayer, building3);
+//        drawBuildings(birdLayer, building4);
+//        drawBuildings(birdLayer, building5);
+
+
+
+// System.out.println("birdLayer:" + birdLayer.toString());
+// System.out.println("hudLayer:" + hudLayer.toString());
+
+
         birdLayer.start();
-
-        drawGrass(birdLayer);
-        drawBuildings(birdLayer, building1);
-        drawBuildings(birdLayer, building2);
-        drawBuildings(birdLayer, building3);
-        drawBuildings(birdLayer, building4);
-        drawBuildings(birdLayer, building5);
-
         birdLayer.blend();
-
-        System.out.println("birdLayer:" + birdLayer.toString());
-        System.out.println("hudLayer:" + hudLayer.toString());
-
-        if (bird.shouldntFlap()) {
-            birdLayer.getBatch().draw(birdMid, bird.getX(), bird.getY(),
-                    bird.getWidth() / 2.0f, bird.getHeight() / 2.0f,
-                    bird.getWidth(), bird.getHeight(), 1, 1, bird.getRotation());
-        } else {
-            birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), bird.getX(), bird.getY(),
-                    bird.getWidth() / 2.0f, bird.getHeight() / 2.0f, bird.getWidth(), bird.getHeight(),
-                    1, 1, bird.getRotation());
-        }
-
-        birdLayer.getBatch().draw(birdMid, marketBird.getX(), marketBird.getY(),
-                marketBird.getWidth() / 2.0f, marketBird.getHeight() / 2.0f,
-                marketBird.getWidth(), marketBird.getHeight(), 1, 1, marketBird.getRotation());
-
+        drawBird(bird, runTime);
+        drawBird(marketBird, runTime);
         birdLayer.stop();
 
         hudLayer.start();
         drawHud();
         hudLayer.stop();
+    }
+
+    private void drawBird(Bird b, float runTime) {
+        birdLayer.getBatch().draw(birdAnimation.getKeyFrame(runTime), b.getX(), b.getY(),
+                b.getWidth() / 2.0f, b.getHeight() / 2.0f,
+                b.getWidth(), b.getHeight(), 1, 1, b.getRotation());
     }
 
     private void drawHud() {
@@ -211,15 +213,5 @@ public class GameRenderer {
         AssetLoader.font.draw(batch,   scoreString,   (136 / 2) - (3 * scoreString.length() - 1), 11);
     }
 
-    private void resizeToBird(GameLayer layer, Bird bird, float timestamp) {
 
-        float birdY = bird.getY();
-
-        float height = birdY + this.gameHeight;
-        float width = Math.max(VIEWPORT_WIDTH, birdY + (height * this.viewportRatio));
-
-        bird.update(0, Math.round(width / 2), Math.round(bird.getY()));
-
-        layer.orient(width, height);
-    }
 }

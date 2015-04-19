@@ -4,8 +4,9 @@ package com.flappy.markets.GameWorld;
  * Created by norton on 4/18/15.
  */
 public class CameraMan {
-    public final static int MAX_ZOOM_VELOCITY = 5; // m/s Maximum rate at which the top or bottom of the camera will move
-    public final static float CAMERA_LAG = 0.5f; // s Number of seconds that it would take to get the birds to the right spots on the screen
+
+    public final static int MAX_ZOOM_VELOCITY = 50; // m/s Maximum rate at which the top or bottom of the camera will move
+    public final static float CAMERA_LAG = 0.15f; // s Number of seconds that it would take to get the birds to the right spots on the screen
 
     private GameWorld myWorld;
 
@@ -22,21 +23,23 @@ public class CameraMan {
     }
 
     private float calculateZoomVelocity(float currentAltitude, float desiredAltitude){
+
         float delta = desiredAltitude - currentAltitude;
         float candidateV = delta / CAMERA_LAG;
         if(Math.abs(candidateV) > MAX_ZOOM_VELOCITY){
             return MAX_ZOOM_VELOCITY * (candidateV > 0 ? 1 : -1);
         }
         return candidateV;
+
     }
 
-    public void step(float time){
-        float elapsed;
+    public void update(float time){
+        float delta;
 
         if(prevTime > 0){
-            elapsed = time - prevTime;
-            this.top = top + v_top() * elapsed;
-            this.bottom = bottom + v_bottom() * elapsed;
+            delta = time - prevTime;
+            this.top = top + v_top() * delta;
+            this.bottom = bottom + v_bottom() * delta;
         }
         this.prevTime = time;
 
@@ -48,6 +51,7 @@ public class CameraMan {
     }
 
     private float desiredTop(){
+
         return (myWorld.getBirdSpread() / 2) + myWorld.maxBirdAltitude();
     }
 
@@ -65,6 +69,14 @@ public class CameraMan {
 
     public String toString(){
 
-        return String.format("top:%s,bottom:%s", top, bottom);
+        return String.format("top:%s, bottom:%s, bird:%s, marketBird:%s", top, bottom, myWorld.getBird(), myWorld.getMarketBird());
+    }
+
+    public float getTop() {
+        return top;
+    }
+
+    public float getBottom() {
+        return bottom;
     }
 }
