@@ -8,7 +8,7 @@ public class InputHandler implements InputProcessor {
 
     private Bird myBird;
     private GameWorld myWorld;
-
+ke
 
     public InputHandler(GameWorld myWorld) {
         this.myWorld = myWorld;
@@ -32,17 +32,14 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        myWorld.touching = true;
-        if (myWorld.isReady()) {
-            myWorld.start();
-        }
 
-        myWorld.touching = true;
+        if (!myWorld.isGameOver()) {
+            myWorld.touching = true;
 
-        myBird.onClick();
-
-        if (myWorld.isGameOver() || myWorld.isHighScore()) {
-            myWorld.restart();
+            if (myWorld.isReady()) {
+                myWorld.start();
+            }
+            myBird.onClick();
         }
 
         return true;
@@ -50,7 +47,11 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        myWorld.touching = false;
+
+        if (!myWorld.isGameOver()) {
+            myWorld.touching = false;
+        }
+
         return true;
     }
 
