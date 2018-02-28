@@ -8,7 +8,6 @@ public class InputHandler implements InputProcessor {
 
     private Bird myBird;
     private GameWorld myWorld;
-ke
 
     public InputHandler(GameWorld myWorld) {
         this.myWorld = myWorld;
